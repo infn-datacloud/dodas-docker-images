@@ -1,13 +1,13 @@
 ### Usage:
-* ```docker-container up -d```
-* ```docker attach tapev4```
+* ```docker-container up -d``` (fa parttire in automatico anche l'editor)
+* ```docker attach tape```
 * nel folder root bisogna esguire la richiesta di token con ```source oicd-setup.sh``` e poi eseguire ```./cygno_s32tape.sh```
 * [monitor spazio](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO)
 
 ### Tips for editing
 * ```cd <script>```
 * ```ssh -L 10000:localhost:10000 testnotebook```
-* ```docker run -d -p 10000:8888 --name editor -v "${PWD}":/home/jovyan/work/ jupyter/scipy-notebook:9e63909e0317``` 
+* ```docker run -d -p 10000:8888 --name editor -v "${PWD}":/home/jovyan/work/ jupyter/scipy-notebook``` 
 * e poi avere il token di accesso [guardate](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html)
 * ```docker logs editor``` 
 
