@@ -93,11 +93,12 @@ RUN pip3 install --no-cache-dir -U \
     metakernel==0.28.2 \
     tensorflow==2.6.2 \
     opencv-python==4.6.0.66 \
-    root_numpy \
-    pydot \
-    graphviz \
-    uproot \
-    && pip3 install --no-cache-dir -U git+https://github.com/CYGNUS-RD/cygno.git \
+    root_numpy==4.8.0 \
+    pydot==1.4.2\
+    graphviz==0.19.1 \
+    uproot==4.3.7 \  
+    mysql-connector==2.2.9 \
+    && pip3 install --no-cache-dir -U git+https://github.com/CYGNUS-RD/cygno.git@v1.0.10 \
     && pip3 install 'https://github.com/CYGNUS-RD/middleware/blob/master/midas/midaslib.tar.gz?raw=true'
 
 # Force default python in jupyter kernel to Python3
@@ -108,14 +109,14 @@ RUN ln -s /usr/bin/cmake3 /usr/bin/cmake
 
 # last requirments....
 RUN yum install emacs -y 
-RUN yum install screen -y
-RUN wget https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz; \
-    tar xvf Python-3.9.10.tgz; \
-    cd Python-3.9*/; \
-    ./configure --enable-optimizations; \
-    make altinstall; \
-    cd .. ; \
-    rm -rf Python-3.9*
+#RUN yum install screen -y
+#RUN wget https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz; \
+#    tar xvf Python-3.9.10.tgz; \
+#    cd Python-3.9*/; \
+#    ./configure --enable-optimizations; \
+#    make altinstall; \
+#    cd .. ; \
+#    rm -rf Python-3.9*
 
 # Link folders
 RUN mkdir -p ${JUPYTER_ROOT} \
