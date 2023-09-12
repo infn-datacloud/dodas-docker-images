@@ -100,7 +100,9 @@ RUN pip3 install --no-cache-dir -U \
     graphviz==0.19.1 \
     uproot==4.3.7 \  
     mysql-connector==2.2.9 \
-    && pip3 install --no-cache-dir -U git+https://github.com/CYGNUS-RD/cygno.git@v1.0.10 \
+    tables==3.7.0 \
+    lecroyparser==1.4.2 \
+    && pip3 install --no-cache-dir -U git+https://github.com/CYGNUS-RD/cygno.git@v1.0.14 \
     && pip3 install 'https://github.com/CYGNUS-RD/middleware/blob/master/midas/midaslib.tar.gz?raw=true'
 
 # Force default python in jupyter kernel to Python3
