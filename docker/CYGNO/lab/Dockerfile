@@ -36,17 +36,8 @@ RUN yum -y clean metadata \
     condor-procd \
     python2-condor \
     python3-condor \
-    libsodium-devel \
-    webkitgtk4-devel \
-    libmicrohttpd-devel \
-    libsecret-devel \
-    qrencode-devel \
     && yum -y clean all \
     && rm -f /tmp/packages
-
-RUN yum remove oidc-agent -y
-
-RUN git clone -b v4.5.1 https://github.com/indigo-dc/oidc-agent.git && cd oidc-agent && sed -i -e 's/AGENT_CURL_TIMEOUT 10/AGENT_CURL_TIMEOUT 1000/' src/oidc-agent/http/http_handler.c && make -j && make install PREFIX=/
 
 RUN jupyter labextension uninstall @jlab_collaborative_ext/context-menu
 
