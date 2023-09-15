@@ -39,6 +39,11 @@ RUN yum -y clean metadata \
     && yum -y clean all \
     && rm -f /tmp/packages
 
+RUN yum remove -y oidc-agent oidc-agent-cli oidc-agent-desktop liboidc-agent4
+
+ADD $PWD/assets/rpm/  /rpm/
+RUN rpm -i /rpm/* 
+
 RUN jupyter labextension uninstall @jlab_collaborative_ext/context-menu
 
 COPY scripts/post_script.sh /usr/local/share/dodasts/script/
@@ -113,6 +118,7 @@ RUN ln -s /usr/bin/cmake3 /usr/bin/cmake
 
 # last requirments....
 RUN yum install emacs -y 
+RUN yum install vim -y
 #RUN yum install screen -y
 #RUN wget https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz; \
 #    tar xvf Python-3.9.10.tgz; \
