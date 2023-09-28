@@ -40,23 +40,23 @@ services:
       MYSQL_PORT: ${MYSQL_PORT}
     volumes:
       - ${PWD}/script/:/root/script
-  online2:
-    image: gmazzitelli/cygno-st:v1.0.4-cygno
-    container_name: analisys2
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    environment:
-      OIDC_AGENT: ${OIDC_AGENT}
-      REFRESH_TOKEN: ${REFRESH_TOKEN}
-      IAM_CLIENT_SECRET: ${IAM_CLIENT_SECRET}
-      IAM_CLIENT_ID: ${IAM_CLIENT_ID}
-      IAM_SERVER: ${IAM_SERVER}
-      IAM_SCOPES: "'openid profile email offline_access wlcg wlcg.groups'"
-      MYSQL_IP: ${MYSQL_IP}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_PORT: ${MYSQL_PORT}
-    volumes:
-      - ${PWD}/script/:/root/script
+#  online2:
+#    image: gmazzitelli/cygno-st:v1.0.4-cygno
+#    container_name: analisys2
+#    stdin_open: true # docker run -i
+#    tty: true        # docker run -t
+#    environment:
+#      OIDC_AGENT: ${OIDC_AGENT}
+#      REFRESH_TOKEN: ${REFRESH_TOKEN}
+#      IAM_CLIENT_SECRET: ${IAM_CLIENT_SECRET}
+#      IAM_CLIENT_ID: ${IAM_CLIENT_ID}
+#      IAM_SERVER: ${IAM_SERVER}
+#      IAM_SCOPES: "'openid profile email offline_access wlcg wlcg.groups'"
+#      MYSQL_IP: ${MYSQL_IP}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE}
+#      MYSQL_PORT: ${MYSQL_PORT}
+#    volumes:
+#      - ${PWD}/script/:/root/script
 
