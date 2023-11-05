@@ -1,3 +1,13 @@
 #!/bin/bash
-eval `oidc-agent`
-oidc-gen --client-id $IAM_CLIENT_ID --client-secret $IAM_CLIENT_SECRET --rt $REFRESH_TOKEN --manual --issuer $IAM_SERVER --pw-cmd="echo pwd" --redirect-uri="edu.kit.data.oidc-agent:/redirect http://localhost:29135 http://localhost:8080 http://localhost:4242" --scope "openid email wlcg wlcg.groups profile offline_access" $OIDC_AGENT
+i=0
+while :
+do
+	d=`date +%Y-%M-%d\ %H:%M:%S`
+	echo "$d loop: $i"
+#
+# command
+#	./consumer_event_s3.py -v
+
+	i=$((i+1))
+	sleep 60
+done
