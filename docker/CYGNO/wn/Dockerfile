@@ -41,7 +41,8 @@ RUN ./install_RooUnfold.sh
 WORKDIR /
 
 # Install boto
-RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts
+#RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts
+RUN pip3 install --no-cache-dir -U git+https://github.com/alexcos78/boto3sts/tree/dev-rgw-cygno
 
 # Install ca
 RUN wget "https://crt.sh/?d=2475254782" --progress=bar -O /etc/pki/ca-trust/source/anchors/ca.crt \
