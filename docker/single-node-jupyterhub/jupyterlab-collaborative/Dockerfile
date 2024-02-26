@@ -1,7 +1,7 @@
 # Image name: dodasts/snj-base-jlabc
 # Image name: dodasts/snj-base-jlabc-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
 #ARG BASE_IMAGE="dodasts/snj-base-lab"
-ARG BASE_IMAGE="harbor.cloud.infn.it/snj/snj-base-lab:rgw"
+ARG BASE_IMAGE="harbor.cloud.infn.it/snj/snj-base-lab:1.1rgw"
 # hadolint ignore=DL3006
 FROM ${BASE_IMAGE}
 
