@@ -10,7 +10,7 @@ mkdir -p /s3/"${USERNAME}"
 mkdir -p /s3/scratch
 
 sleep 1s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
-    "${USERNAME}" https://rgw.cloud.infn.it/ IAMaccess object \
+    "${USERNAME}" https://rgw.cloud.infn.it/ IAMaccess ibject \
     "/${USERNAME}" "/s3/${USERNAME}" \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/${USERNAME}" \
