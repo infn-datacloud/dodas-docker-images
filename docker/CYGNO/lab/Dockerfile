@@ -1,5 +1,6 @@
 # Image name: dodasts/cygno-lab
-FROM dodasts/snj-base-lab-cc7:v1.1.1-snj
+#FROM dodasts/snj-base-lab-cc7:v1.1.1-snj
+FROM harbor.cloud.infn.it/snj/snj-base-lab-cc7:1.0rgw
 
 ENV OIDC_AGENT=/usr/bin/oidc-agent
 
@@ -39,10 +40,11 @@ RUN yum -y clean metadata \
     && yum -y clean all \
     && rm -f /tmp/packages
 
-RUN yum remove -y oidc-agent oidc-agent-cli oidc-agent-desktop liboidc-agent4
-
-ADD $PWD/assets/rpm/  /rpm/
-RUN rpm -i /rpm/* 
+# acostantini: sembra inutile ma lasciamo al momento
+#RUN yum remove -y oidc-agent oidc-agent-cli oidc-agent-desktop liboidc-agent4
+#
+#ADD $PWD/assets/rpm/  /rpm/
+#RUN rpm -i /rpm/* 
 
 RUN jupyter labextension uninstall @jlab_collaborative_ext/context-menu
 
@@ -83,7 +85,7 @@ WORKDIR /
 
 # Install boto
 #RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts
-RUN pip3 install --no-cache-dir -U git+https://github.com/alexcos78/boto3sts/tree/dev-rgw-cygno
+RUN pip3 install --no-cache-dir -U git+https://github.com/alexcos78/boto3sts@dev-rgw-cygno
 
 
 # Install ca
