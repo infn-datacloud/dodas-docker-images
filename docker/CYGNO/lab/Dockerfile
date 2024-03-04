@@ -1,6 +1,6 @@
 # Image name: dodasts/cygno-lab
 #FROM dodasts/snj-base-lab-cc7:v1.1.1-snj
-FROM harbor.cloud.infn.it/snj/snj-base-lab-cc7:1.0rgw
+FROM harbor.cloud.infn.it/snj/snj-base-lab-cc7:1.1rgw
 
 ENV OIDC_AGENT=/usr/bin/oidc-agent
 
@@ -40,7 +40,7 @@ RUN yum -y clean metadata \
     && yum -y clean all \
     && rm -f /tmp/packages
 
-# acostantini: sembra inutile ma lasciamo al momento
+# acostantini: tolto, abbiamo già le versioni giuste
 #RUN yum remove -y oidc-agent oidc-agent-cli oidc-agent-desktop liboidc-agent4
 #
 #ADD $PWD/assets/rpm/  /rpm/
