@@ -1,6 +1,7 @@
-# Image name: dodasts/snj-base-lab
-# Image name: dodasts/snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
+# Image name: harbor.cloud.infn.it/snj/snj-base-lab:1.2rgw
+# Image name: harbor.cloud.infn.it/snj/snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
 ARG BASE_IMAGE="ubuntu:20.04"
+#ARG BASE_IMAGE="tensorflow/tensorflow:2.7.0rc1-gpu"
 # hadolint ignore=DL3006
 FROM ${BASE_IMAGE}
 
@@ -20,13 +21,13 @@ RUN if [ "$BASE_IMAGE" = "tensorflow/tensorflow:2.7.0rc1-gpu" ] ;  then \
     build-essential=12.8ubuntu1.1 python3-dev=3.8.2-0ubuntu2 python3-pip=20.0.2-5ubuntu1.10 libargon2-dev=0~20171227-0.2 \
     libffi-dev=3.3-4 libpixman-1-dev=0.38.4-0ubuntu2.1 libcairo2-dev=1.16.0-4ubuntu1 libpangox-1.0-dev=0.0.2-5ubuntu1 \
     libjpeg-dev=8c-2ubuntu8 libczmq-dev=4.2.0-2 curl=7.68.0-1ubuntu2.21 libcurl4-openssl-dev=7.68.0-1ubuntu2.21 \
-    libssl-dev=1.1.1f-1ubuntu2.21 dirmngr=2.2.19-3ubuntu2.2 gpg-agent=2.2.19-3ubuntu2.2 gnupg=2.2.19-3ubuntu2.2 \
+    libssl-dev=1.1.1f-1ubuntu2.22 dirmngr=2.2.19-3ubuntu2.2 gpg-agent=2.2.19-3ubuntu2.2 gnupg=2.2.19-3ubuntu2.2 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* && \
     # Make dodasts, script and bin folders
     mkdir -p /usr/local/share/dodasts /usr/local/share/dodasts/script /usr/local/share/dodasts/bin && \
     python3 -m pip install -U --no-cache-dir pip==23.0.1 setuptools==67.6.0 wheel==0.40.0 && \
     # Install sts-wire
-    curl -L https://github.com/DODAS-TS/sts-wire/releases/download/v2.1.3-rados/sts-wire_linux -o /usr/local/share/dodasts/bin/sts-wire && \
+    curl -L https://github.com/DODAS-TS/sts-wire/releases/download/v2.1.4-rados/sts-wire_linux -o /usr/local/share/dodasts/bin/sts-wire && \
     chmod +x /usr/local/share/dodasts/bin/sts-wire && \
     ln -s /usr/local/share/dodasts/bin/sts-wire /usr/local/bin/sts-wire && \
     # Install oidc-agent
