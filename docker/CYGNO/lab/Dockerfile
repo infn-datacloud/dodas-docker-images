@@ -1,6 +1,6 @@
-# Image name: dodasts/cygno-lab
+# Image name: harbor.cloud.infn.it/cygno/cygno-lab:1.2rgw
 #FROM dodasts/snj-base-lab-cc7:v1.1.1-snj
-FROM harbor.cloud.infn.it/snj/snj-base-lab-cc7:1.1rgw
+FROM harbor.cloud.infn.it/snj/snj-base-lab-cc7:1.2rgw
 
 ENV OIDC_AGENT=/usr/bin/oidc-agent
 

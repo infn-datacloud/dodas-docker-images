@@ -10,7 +10,7 @@ mkdir -p /var/log/sts-wire/
 mkdir -p /s3/
 mkdir -p /s3/"${USERNAME}"
 mkdir -p /s3/scratch
-mkdir -p /s3/cygno
+#mkdir -p /s3/cygno
 mkdir -p /s3/cygno-analysis
 mkdir -p /s3/cygno-sim
 mkdir -p /s3/cygno-data
@@ -32,24 +32,18 @@ sleep 2s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     --localCacheDir "${BASE_CACHE_DIR}/scratch" \
     &>/var/log/sts-wire/mount_log_scratch.txt &
 sleep 3s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
-    cygno https://rgw.cloud.infn.it/ IAMaccess object \
-    /cygnus /s3/cygno \
-    --localCache full --tryRemount --noDummyFileCheck \
-    --localCacheDir "${BASE_CACHE_DIR}/cygno" \
-    &>/var/log/sts-wire/mount_log_cygno.txt &
-sleep 4s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     cygno_analysis https://rgw.cloud.infn.it/ IAMaccess object/ \
     /cygno-analysis /s3/cygno-analysis \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/cygno_analysis" \
     &>/var/log/sts-wire/mount_log_cygnoalanysis.txt &
-sleep 5s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
+sleep 4s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     cygno_sim https://rgw.cloud.infn.it/ IAMaccess object \
     /cygno-sim /s3/cygno-sim \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/cygno_sim" \
     &>/var/log/sts-wire/mount_log_cygnosim.txt &
-sleep 6s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
+sleep 5s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     cygno_data https://rgw.cloud.infn.it/ IAMaccess object \
     /cygno-data /s3/cygno-data \
     --localCache full --tryRemount --noDummyFileCheck \
