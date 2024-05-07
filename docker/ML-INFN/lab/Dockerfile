@@ -1,5 +1,6 @@
-# Image name: dodasts/ml-infn-lab
-FROM dodasts/snj-base-lab-gpu:v1.1.1-snj
+# Image name: harbor.cloud.infn.it/ml-infn/ml-infn-lab:1.2rgw
+#FROM dodasts/snj-base-lab-gpu:v1.1.1-snj
+FROM harbor.cloud.infn.it/snj/snj-base-lab-gpu:1.2rgw
 
 # Install system packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \

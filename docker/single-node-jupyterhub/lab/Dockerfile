@@ -1,5 +1,5 @@
-# Image name: snj-base-lab:1.2rgw
-# Image name: snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
+# Image name: harbor.cloud.infn.it/snj/snj-base-lab:1.2rgw
+# Image name: harbor.cloud.infn.it/snj/snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
 ARG BASE_IMAGE="ubuntu:20.04"
 #ARG BASE_IMAGE="tensorflow/tensorflow:2.7.0rc1-gpu"
 # hadolint ignore=DL3006
@@ -73,11 +73,11 @@ RUN if [ "$BASE_IMAGE" = "tensorflow/tensorflow:2.7.0rc1-gpu" ] ;  then \
     jupyterlab_server==2.15.2 \
     jupyterlab-system-monitor==0.8.0 \
     jupyterlab-topbar==0.6.1 \
-    jupyterlab-widgets==3.0.5 && \
+    jupyterlab-widgets==3.0.5
     # jupyter_http_over_ws==0.0.8 \ # Temporarly removed. Needs further config: https://github.com/googlecolab/jupyter_http_over_ws#usage
     # RUN jupyter serverextension enable --py jupyter_http_over_ws
     #curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    mkdir -p /etc/apt/keyrings && \
+RUN mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     NODE_MAJOR=16 && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" \
