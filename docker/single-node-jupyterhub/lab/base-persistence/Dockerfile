@@ -1,5 +1,6 @@
-# Image name: dodasts/snj-base-lab-persistence
-ARG BASE_IMAGE="dodasts/snj-base-lab"
+# Image name: harbor.cloud.infn.it/snj/snj-base-lab-persistence:1.2rgw
+ARG BASE_IMAGE="harbor.cloud.infn.it/snj/snj-base-lab:1.2rgw"
+#ARG BASE_IMAGE="harbor.cloud.infn.it/snj/snj-base-lab-gpu:1.2rgw"
 # hadolint ignore=DL3006
 FROM ${BASE_IMAGE}
 
