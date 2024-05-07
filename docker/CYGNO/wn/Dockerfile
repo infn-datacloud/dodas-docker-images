@@ -6,6 +6,8 @@ ENV OIDC_AGENT=/usr/bin/oidc-agent
 COPY assets/base_packages /tmp/
 COPY assets/packages /tmp/
 
+COPY lab/htcondor-development-rhel7.repo /etc/yum.repos.d/
+
 # clean metadata: https://srvfail.com/yum-doesnt-work-in-clean-centos-7-install-exiting-on-user-cancel/
 RUN yum -y clean metadata \
     && yum --exclude=\*oidc-agent\* -y update \
@@ -41,7 +43,8 @@ RUN ./install_RooUnfold.sh
 WORKDIR /
 
 # Install boto
-RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts
+#RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts
+RUN pip3 install --no-cache-dir -U git+https://github.com/alexcos78/boto3sts@dev-rgw-cygno
 
 # Install ca
 RUN wget "https://crt.sh/?d=2475254782" --progress=bar -O /etc/pki/ca-trust/source/anchors/ca.crt \
