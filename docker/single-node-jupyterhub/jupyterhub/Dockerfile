@@ -21,4 +21,3 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     wget "https://crt.sh/?d=2475254782" --progress=bar -O /usr/local/share/ca-certificates/ca.crt && update-ca-certificates
 
 COPY jupyterhub_config.py /srv/jupyterhub/
-

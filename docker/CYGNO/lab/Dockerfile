@@ -37,13 +37,7 @@ RUN yum -y clean metadata \
     python2-condor \
     python3-condor \
     && yum -y clean all \
-    && rm -f /tmp/packages
-
-# acostantini: tolto, abbiamo già le versioni giuste
-#RUN yum remove -y oidc-agent oidc-agent-cli oidc-agent-desktop liboidc-agent4
-#
-#ADD $PWD/assets/rpm/  /rpm/
-#RUN rpm -i /rpm/* 
+    && rm -f /tmp/packages 
 
 RUN jupyter labextension uninstall @jlab_collaborative_ext/context-menu
 
@@ -134,6 +128,5 @@ RUN mkdir -p ${JUPYTER_ROOT} \
     && ln -s /s3 ${JUPYTER_ROOT}/cloud-storage \
     && ln -s /shared ${JUPYTER_ROOT}/shared \
     && ln -s /private ${JUPYTER_ROOT}/private
-
 
 WORKDIR /jupyter-workspace

@@ -83,28 +83,25 @@ pipeline {
             }
         }
 
-        stage('Push Derived Image to Harbor') {
-            parallel {
-                stage('Push Persistence Image') {
-                    steps {
-                        script {
-                            def derivedPerstenceImage = docker.image("${BASE_LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                            docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-                                derivedPerstenceImage.push()
-                            }
-                        }
+        stage('Push Derived Persistence Image to Harbor') {
+            steps {
+                script {
+                    def derivedPerstenceImage = docker.image("${BASE_LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
+                        derivedPerstenceImage.push()
                     }
                 }
-                stage('Push Collaborative Image') {
-                    steps {
-                        script {
-                            def derivedCollImage = docker.image("${BASE_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                            docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-                                derivedCollImage.push()
-                            }
-                        }
+            }
+        }
+
+        stage('Push Derived Collaborative Image to Harbor') {
+            steps {
+                script {
+                    def derivedCollImage = docker.image("${BASE_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
+                        derivedCollImage.push()
                     }
-                }  
+                }
             }
         }
     }

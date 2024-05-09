@@ -1,7 +1,7 @@
 FROM jupyter/docker-stacks-foundation:ubuntu-22.04
 
-MAINTAINER Diego Ciangottini <diego.ciangottini@cern.ch> \
-           Marco Verlato <verlato@infn.it>
+LABEL Diego Ciangottini <diego.ciangottini@cern.ch> \
+      Marco Verlato <verlato@infn.it>
 
 USER root
 
