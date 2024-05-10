@@ -1,5 +1,5 @@
-# Image name: harbor.cloud.infn.it/snj/snj-base-lab:1.2rgw
-# Image name: harbor.cloud.infn.it/snj/snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
+# Image name: snj-base-lab:1.2rgw
+# Image name: snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
 ARG BASE_IMAGE="ubuntu:20.04"
 #ARG BASE_IMAGE="tensorflow/tensorflow:2.7.0rc1-gpu"
 # hadolint ignore=DL3006

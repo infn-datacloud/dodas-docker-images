@@ -1,4 +1,4 @@
-# Image name: dodasts/snj-base-notebook
+# Image name: snj-base-notebook
 FROM ubuntu:20.04
 COPY custom.js /tmp/
 WORKDIR /

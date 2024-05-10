@@ -1,4 +1,4 @@
-# Image name: dodasts/snj-base-jhub
+# Image name: snj-base-jhub
 
 FROM jupyterhub/jupyterhub:1.5.0
 
@@ -10,10 +10,6 @@ RUN python3 -m pip install --no-cache-dir -U pip==23.0.1 setuptools==67.6.0 whee
     oauthenticator==14.2.0 \
     pyjwt==2.4.0 \
     jupyterhub-idle-culler==1.2.1
-
-# Test user
-# RUN useradd test -p "$(openssl passwd -1 test)"
-# RUN mkdir /home/test && chown test: /home/test
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \

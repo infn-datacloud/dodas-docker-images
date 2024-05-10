@@ -1,7 +1,7 @@
-# Image name: harbor.cloud.infn.it/snj/snj-base-jlabc
-# Image name: harbor.cloud.infn.it/snj/snj-base-jlabc-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
-ARG BASE_IMAGE="harbor.cloud.infn.it/snj/snj-base-lab:1.2rgw"
-#ARG BASE_IMAGE="harbor.cloud.infn.it/snj/snj-base-lab-gpu:1.2rgw"
+# Image name: snj-base-jlabc
+# Image name: snj-base-jlabc-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
+ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:1.2rgw"
+#ARG BASE_IMAGE="snj-base-lab-gpu:1.2rgw"
 # hadolint ignore=DL3006
 FROM ${BASE_IMAGE}
 
@@ -14,7 +14,6 @@ RUN python3 -m pip install --no-cache-dir jupyterlab-link-share==0.2.1
 ## CVE-2011-1473, CVE-2011-5094
 COPY netutil.py.patch /tmp/
 RUN patch -b /usr/local/lib/python3.8/dist-packages/tornado/netutil.py /tmp/netutil.py.patch && \
-  # Build jupyter lab stuff
   /bin/bash -c "jupyter lab build --dev-build=False --minimize=True"
 
 WORKDIR /jupyter-workspace
