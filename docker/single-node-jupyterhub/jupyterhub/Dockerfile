@@ -1,4 +1,4 @@
-# Image name: snj-base-jhub
+# Image name: snj-base-jhub:1.2rgw
 
 FROM jupyterhub/jupyterhub:1.5.0
 
