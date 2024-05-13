@@ -9,7 +9,7 @@ pipeline {
         JHUB_IMAGE_NAME = 'datacloud-templates/snj-base-jhub'
         BASE_LAB_IMAGE_NAME = 'datacloud-templates/snj-base-lab'
         LAB_PERSISTENCE_IMAGE_NAME = 'datacloud-templates/snj-base-lab-persistence'
-        LAB_COLLABORATIVE_IMAGE_NAME = 'datacloud-templates/snj-base-lab-collaborative'
+        LAB_COLLABORATIVE_IMAGE_NAME = 'datacloud-templates/snj-base-labc'
         COLLABORATIVE_PROXY_IMAGE_NAME = 'datacloud-templates/snj-base-jlabc-proxy'
         NOTEBOOK_IMAGE_NAME = 'datacloud-templates/snj-base-notebook'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
