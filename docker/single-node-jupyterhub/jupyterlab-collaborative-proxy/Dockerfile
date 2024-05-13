@@ -1,4 +1,4 @@
-# Image name: dodasts/snj-base-jlabc-proxy
+# Image name: snj-base-jlabc-proxy
 FROM ubuntu:20.04
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \

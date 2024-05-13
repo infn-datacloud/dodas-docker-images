@@ -8,8 +8,10 @@ pipeline {
         HARBOR_CREDENTIALS = 'harbor-paas-credentials'
         JHUB_IMAGE_NAME = 'datacloud-templates/snj-base-jhub'
         BASE_LAB_IMAGE_NAME = 'datacloud-templates/snj-base-lab'
-        BASE_LAB_PERSISTENCE_IMAGE_NAME = 'datacloud-templates/snj-base-lab-persistence'
-        BASE_LAB_COLLABORATIVE_IMAGE_NAME = 'datacloud-templates/snj-base-lab-collaborative'
+        LAB_PERSISTENCE_IMAGE_NAME = 'datacloud-templates/snj-base-lab-persistence'
+        LAB_COLLABORATIVE_IMAGE_NAME = 'datacloud-templates/snj-base-lab-collaborative'
+        COLLABORATIVE_PROXY_IMAGE_NAME = 'datacloud-templates/snj-base-jlabc-proxy'
+        NOTEBOOK_IMAGE_NAME = 'datacloud-templates/snj-base-notebook'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -41,8 +43,8 @@ pipeline {
                 stage('Build Persistence Image'){
                     steps {
                         script {
-                            def derivedPerstenceImage = docker.build(
-                                "${BASE_LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                            def labPerstenceImage = docker.build(
+                                "${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
                                 "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
                             )
                         }
@@ -51,8 +53,8 @@ pipeline {
                 stage('Build Collaborative Image'){
                     steps {
                         script {
-                            def derivedCollImage = docker.build(
-                                "${BASE_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                            def labCollImage = docker.build(
+                                "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
                                 "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
                             )
                         }
@@ -61,13 +63,33 @@ pipeline {
             }
         }
 
+        stage('Build Collaborative Proxy Image') {
+            steps {
+                script {
+                    def CollProxyImage = docker.build(
+                        "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
+                    )
+                }
+            }
+        }
+
+        stage('Build Notebook Image') {
+            steps {
+                script {
+                    def notebookImage = docker.build(
+                        "${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
+                    )
+                }
+            }
+        }
+
         stage('Push Hub Image to Harbor') {
             steps {
                 script {
                     def jhubImage = docker.image("${JHUB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-                        jhubImage.push()
-                    }
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubImage.push()}
                 }
             }
         }
@@ -76,9 +98,7 @@ pipeline {
             steps {
                 script {
                     def baseLabImage = docker.image("${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-                        baseLabImage.push()
-                    }
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabImage.push()}
                 }
             }
         }
@@ -86,10 +106,8 @@ pipeline {
         stage('Push Derived Persistence Image to Harbor') {
             steps {
                 script {
-                    def derivedPerstenceImage = docker.image("${BASE_LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-                        derivedPerstenceImage.push()
-                    }
+                    def labPerstenceImage = docker.image("${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labPerstenceImage.push()}
                 }
             }
         }
@@ -97,10 +115,26 @@ pipeline {
         stage('Push Derived Collaborative Image to Harbor') {
             steps {
                 script {
-                    def derivedCollImage = docker.image("${BASE_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-                        derivedCollImage.push()
-                    }
+                    def labCollImage = docker.image("${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labCollImage.push()}
+                }
+            }
+        }
+
+        stage('Push Collaborative Proxy Image to Harbor') {
+            steps {
+                script {
+                    def CollProxyImage = docker.image("${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {CollProxyImage.push()}
+                }
+            }
+        }
+
+        stage('Push Notebook Image to Harbor') {
+            steps {
+                script {
+                    def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {notebookImage.push()}
                 }
             }
         }
