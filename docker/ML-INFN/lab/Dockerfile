@@ -1,5 +1,4 @@
-# Image name: ml-infn-lab:1.2rgw
-#FROM dodasts/snj-base-lab-gpu:v1.1.1-snj
+# Image name: ml-infn-lab
 FROM harbor.cloud.infn.it/snj/snj-base-lab-gpu:1.2rgw
 
 # Install system packages

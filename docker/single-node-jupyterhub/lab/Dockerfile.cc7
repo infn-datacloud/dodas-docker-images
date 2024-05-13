@@ -1,4 +1,4 @@
-# Image name: snj-base-lab-cc7:1.2rgw
+# Image name: snj-base-lab-cc7
 ARG BASE_IMAGE="cern/cc7-base"
 # hadolint ignore=DL3006
 FROM ${BASE_IMAGE}

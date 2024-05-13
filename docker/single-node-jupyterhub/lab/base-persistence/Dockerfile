@@ -1,7 +1,6 @@
-# Image name: snj-base-lab-persistence:1.2rgw
-ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:1.2rgw"
-#ARG BASE_IMAGE="snj-base-lab-gpu:1.2rgw"
-# hadolint ignore=DL3006
+# Image name: snj-base-lab-persistence
+ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:CLOUD-2252"
+
 FROM ${BASE_IMAGE}
 
 ARG JUPYTER_ROOT=/jupyter-workspace

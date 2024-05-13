@@ -1,5 +1,4 @@
-# Image name: snj-base-jhub:1.2rgw
-
+# Image name: snj-base-jhub
 FROM jupyterhub/jupyterhub:1.5.0
 
 RUN mkdir -p /.init

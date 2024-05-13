@@ -1,5 +1,4 @@
-# Image name: ml-infn-jlabc:1.2rgw
-#FROM dodasts/snj-base-jlabc-gpu:v1.1.1-snj
+# Image name: ml-infn-jlabc
 FROM harbor.cloud.infn.it/snj/snj-base-jlabc-gpu:1.2rgw
 
 # Disable diff checkpoit
