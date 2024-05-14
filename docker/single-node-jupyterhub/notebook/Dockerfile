@@ -42,7 +42,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     importlib-metadata==6.0.0 \
     ipympl==0.9.3 && \
     curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs=16.20.2-deb-1nodesource1 && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nodejs=16.19.1-1nodesource1 && \
     python3 -m pip install --no-cache-dir jupyterhub==1.5.0 && \
     npm install -g configurable-http-proxy@4.5.4 && \
     # Add custom js for collaborative button in notebooks
