@@ -1,7 +1,7 @@
 # Image name: snj-base-jlabc
 # Image name: snj-base-jlabc-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
-ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:CLOUD-2252"
-#ARG BASE_IMAGE="snj-base-lab-gpu:1.2rgw"
+#ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:CLOUD-2252"
+ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab-gpu:CLOUD-2252"
 
 FROM ${BASE_IMAGE}
 
