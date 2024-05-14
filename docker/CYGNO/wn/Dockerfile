@@ -45,11 +45,6 @@ WORKDIR /
 # Install boto
 RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts@dev-rgw
 
-# Install ca
-RUN wget "https://crt.sh/?d=2475254782" --progress=bar -O /etc/pki/ca-trust/source/anchors/ca.crt \
-    && update-ca-trust \
-    && update-ca-trust force-enable
-
 # Install 
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir \
