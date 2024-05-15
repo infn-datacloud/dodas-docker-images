@@ -16,6 +16,9 @@ pipeline {
         NOTEBOOK_IMAGE_NAME = 'datacloud-templates/snj-base-notebook'
         ML_INFN_BASE_LAB_IMAGE_NAME = 'datacloud-templates/ml-infn-lab'
         ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME = 'datacloud-templates/ml-infn-jlabc'
+        BASE_LAB_CC7_IMAGE_NAME = 'datacloud-templates/snj-base-lab-cc7'
+        CYGNO_LAB_IMAGE_NAME = 'datacloud-templates/cygno-lab'
+        CYGNO_LAB_WN_IMAGE_NAME = 'datacloud-templates/cygno-lab-wn'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -118,24 +121,24 @@ pipeline {
         //     }
         // }
 
-        // stage('Build Notebook Image') {
-        //     steps {
-        //         script {
-        //             def notebookImage = docker.build(
-        //                 "${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
-        //             )
-        //         }
-        //     }
-        // }
-        // stage('Push Notebook Image to Harbor') {
-        //     steps {
-        //         script {
-        //             def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {notebookImage.push()}
-        //         }
-        //     }
-        // }
+        stage('Build Notebook Image') {
+            steps {
+                script {
+                    def notebookImage = docker.build(
+                        "${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
+                    )
+                }
+            }
+        }
+        stage('Push Notebook Image to Harbor') {
+            steps {
+                script {
+                    def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {notebookImage.push()}
+                }
+            }
+        }
     
         // stage('Build Base Lab GPU Image') {
         //     steps {
@@ -175,40 +178,97 @@ pipeline {
         //     }
         // }
 
-        stage('Build Base ML_INFN Image') {
+        // stage('Build Base ML_INFN Image') {
+        //     steps {
+        //         script {
+        //             def baseMLImage = docker.build(
+        //                 "${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${BASE_LAB_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/ML-INFN/lab/Dockerfile docker/ML-INFN/lab"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Base ML_INFN Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def baseMLImage = docker.image("${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseMLImage.push()}
+        //         }
+        //     }
+        // }
+        
+        // stage('Build ML_INFN Collaborative Image') {
+        //     steps {
+        //         script {
+        //             def MLCollImage = docker.build(
+        //                 "${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/ML-INFN/jupyterlab-collaborative/Dockerfile docker/ML-INFN/jupyterlab-collaborative"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push ML_INFN Collaborative Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def MLCollImage = docker.image("${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {MLCollImage.push()}
+        //         }
+        //     }
+        // }
+
+        stage('Build Base Lab CC7 Image') {
             steps {
                 script {
-                    def baseMLImage = docker.build(
-                        "${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${BASE_LAB_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/ML-INFN/lab/Dockerfile docker/ML-INFN/lab"
+                    def baseLabCC7Image = docker.build(
+                        "${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}", 
+                        "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
                     )
                 }
             }
         }
-        stage('Push Base ML_INFN Image to Harbor') {
+        stage('Push Base Lab CC7 Image to Harbor') {
             steps {
                 script {
-                    def baseMLImage = docker.image("${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseMLImage.push()}
+                    def baseLabCC7Image = docker.image("${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabCC7Image.push()}
                 }
             }
         }
         
-        stage('Build ML_INFN Collaborative Image') {
+        stage('Build Cygno Image') {
             steps {
                 script {
-                    def MLCollImage = docker.build(
-                        "${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/ML-INFN/jupyterlab-collaborative/Dockerfile docker/ML-INFN/jupyterlab-collaborative"
+                    def cygnoImage = docker.build(
+                        "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO/lab"
                     )
                 }
             }
         }
-        stage('Push ML_INFN Collaborative Image to Harbor') {
+        stage('Push Cygno Image to Harbor') {
             steps {
                 script {
-                    def MLCollImage = docker.image("${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {MLCollImage.push()}
+                    def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
+                }
+            }
+        }
+
+        stage('Build Cygno WN Image') {
+            steps {
+                script {
+                    def cygnoWNImage = docker.build(
+                        "${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO/wn"
+                    )
+                }
+            }
+        }
+        stage('Push Cygno WN Image to Harbor') {
+            steps {
+                script {
+                    def cygnoWNImage = docker.image("${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoWNImage.push()}
                 }
             }
         }

@@ -20,7 +20,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     mkdir -p /usr/local/share/dodasts/bin && \
     python3 -m pip install -U --no-cache-dir pip==23.0.1 setuptools==67.6.0 wheel==0.40.0 && \
     # Install sts-wire
-    curl -L https://github.com/DODAS-TS/sts-wire/releases/download/v2.1.3/sts-wire_linux -o /usr/local/share/dodasts/bin/sts-wire && \
+    curl -L https://repo.cloud.cnaf.infn.it/repository/sts-wire/sts-wire-linux/2.1.5/sts-wire-linux-2.1.5 -o /usr/local/share/dodasts/bin/sts-wire && \
     chmod +x /usr/local/share/dodasts/bin/sts-wire && \
     ln -s /usr/local/share/dodasts/bin/sts-wire /usr/local/bin/sts-wire && \
     # Install oidc-agent

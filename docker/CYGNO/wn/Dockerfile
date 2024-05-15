@@ -1,4 +1,4 @@
-# Image name: dodasts/cygno-lab
+# Image name: cygno-lab-wn
 FROM htcondor/execute:8.9.9-el7
 
 ENV OIDC_AGENT=/usr/bin/oidc-agent
