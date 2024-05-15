@@ -121,24 +121,24 @@ pipeline {
         //     }
         // }
 
-        stage('Build Notebook Image') {
-            steps {
-                script {
-                    def notebookImage = docker.build(
-                        "${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
-                    )
-                }
-            }
-        }
-        stage('Push Notebook Image to Harbor') {
-            steps {
-                script {
-                    def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {notebookImage.push()}
-                }
-            }
-        }
+        // stage('Build Notebook Image') {
+        //     steps {
+        //         script {
+        //             def notebookImage = docker.build(
+        //                 "${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Notebook Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {notebookImage.push()}
+        //         }
+        //     }
+        // }
     
         // stage('Build Base Lab GPU Image') {
         //     steps {
