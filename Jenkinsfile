@@ -216,31 +216,31 @@ pipeline {
         //     }
         // }
 
-        stage('Build Base Lab CC7 Image') {
-            steps {
-                script {
-                    def baseLabCC7Image = docker.build(
-                        "${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}", 
-                        "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
-                    )
-                }
-            }
-        }
-        stage('Push Base Lab CC7 Image to Harbor') {
-            steps {
-                script {
-                    def baseLabCC7Image = docker.image("${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabCC7Image.push()}
-                }
-            }
-        }
+        // stage('Build Base Lab CC7 Image') {
+        //     steps {
+        //         script {
+        //             def baseLabCC7Image = docker.build(
+        //                 "${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}", 
+        //                 "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Base Lab CC7 Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def baseLabCC7Image = docker.image("${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabCC7Image.push()}
+        //         }
+        //     }
+        // }
         
         stage('Build Cygno Image') {
             steps {
                 script {
                     def cygnoImage = docker.build(
                         "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO/lab"
+                        "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
                     )
                 }
             }
@@ -259,7 +259,7 @@ pipeline {
                 script {
                     def cygnoWNImage = docker.build(
                         "${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO/wn"
+                        "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO"
                     )
                 }
             }
