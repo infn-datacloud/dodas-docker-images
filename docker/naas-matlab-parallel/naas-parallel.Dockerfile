@@ -1,3 +1,4 @@
+# Image name: naas_matlab_parallel -> based on jaas_user_containers
 # Copyright 2021-2023 The MathWorks, Inc.
 # Builds Docker image with 
 # 1. MATLAB - Using MPM
