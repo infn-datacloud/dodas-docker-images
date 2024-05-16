@@ -21,6 +21,7 @@ pipeline {
         CYGNO_LAB_WN_IMAGE_NAME = 'datacloud-templates/cygno-lab-wn'
         JUP_MATLAB_IMAGE_NAME = 'datacloud-templates/jupyter_matlab'
         COLL_MATLAB_IMAGE_NAME = 'datacloud-templates/collaborative_matlab'
+        PARAL_MATLAB_IMAGE_NAME = 'datacloud-templates/jupyter_matlab_parallel'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -280,7 +281,7 @@ pipeline {
                 script {
                     def jupMatImage = docker.build(
                         "${JUP_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/persistence.Dockerfile docker/jupyter-matlab"
+                        "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/persistence.Dockerfile docker/jupyter-matlab"
                     )
                 }
             }
@@ -312,6 +313,25 @@ pipeline {
         //         }
         //     }
         // }
+
+        stage('Build Jupyter Parallel Matlab Image') {
+            steps {
+                script {
+                    def paralMatImage = docker.build(
+                        "${PARAL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab-parallel/persistence-parallel.Dockerfile docker/jupyter-matlab-parallel"
+                    )
+                }
+            }
+        }
+        stage('Push Jupyter Matlab Parallel Image to Harbor') {
+            steps {
+                script {
+                    def paralMatImage = docker.image("${PARAL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {paralMatImage.push()}
+                }
+            }
+        }
     }
     
     post {
