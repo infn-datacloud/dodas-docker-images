@@ -279,7 +279,7 @@ pipeline {
                 script {
                     def collMatImage = docker.build(
                         "${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST="MATLAB" --build-arg LICENSE_SERVER="" --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
+                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
                     )
                 }
             }
