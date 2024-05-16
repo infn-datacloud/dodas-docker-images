@@ -1,7 +1,7 @@
 # Image name: snj-base-lab -> based on ubuntu:20.04
 # Image name: snj-base-lab-gpu -> based on tensorflow/tensorflow:2.7.0rc1-gpu (with ubuntu 20:04)
-#ARG BASE_IMAGE="ubuntu:20.04"
-ARG BASE_IMAGE="tensorflow/tensorflow:2.7.0rc1-gpu"
+ARG BASE_IMAGE="ubuntu:20.04"
+#ARG BASE_IMAGE="tensorflow/tensorflow:2.7.0rc1-gpu"
 
 FROM ${BASE_IMAGE}
 

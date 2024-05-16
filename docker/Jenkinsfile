@@ -19,6 +19,7 @@ pipeline {
         BASE_LAB_CC7_IMAGE_NAME = 'datacloud-templates/snj-base-lab-cc7'
         CYGNO_LAB_IMAGE_NAME = 'datacloud-templates/cygno-lab'
         CYGNO_LAB_WN_IMAGE_NAME = 'datacloud-templates/cygno-lab-wn'
+        COLL_MATLAB_IMAGE_NAME = 'datacloud-templates/collaborative_matlab'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -235,40 +236,59 @@ pipeline {
         //     }
         // }
         
-        stage('Build Cygno Image') {
-            steps {
-                script {
-                    def cygnoImage = docker.build(
-                        "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
-                    )
-                }
-            }
-        }
-        stage('Push Cygno Image to Harbor') {
-            steps {
-                script {
-                    def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
-                }
-            }
-        }
+        // stage('Build Cygno Image') {
+        //     steps {
+        //         script {
+        //             def cygnoImage = docker.build(
+        //                 "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Cygno Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
+        //         }
+        //     }
+        // }
 
-        stage('Build Cygno WN Image') {
+        // stage('Build Cygno WN Image') {
+        //     steps {
+        //         script {
+        //             def cygnoWNImage = docker.build(
+        //                 "${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Cygno WN Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def cygnoWNImage = docker.image("${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoWNImage.push()}
+        //         }
+        //     }
+        // }
+
+        stage('Build Collaboration Matlab Image') {
             steps {
                 script {
-                    def cygnoWNImage = docker.build(
-                        "${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO"
+                    def collMatImage = docker.build(
+                        "${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST="MATLAB" --build-arg LICENSE_SERVER="" --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
                     )
                 }
             }
         }
-        stage('Push Cygno WN Image to Harbor') {
+        stage('Push Collaboration Matlab Image to Harbor') {
             steps {
                 script {
-                    def cygnoWNImage = docker.image("${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoWNImage.push()}
+                    def collMatImage = docker.image("${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {collMatImage.push()}
                 }
             }
         }
