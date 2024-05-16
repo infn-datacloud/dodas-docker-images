@@ -19,6 +19,7 @@ pipeline {
         BASE_LAB_CC7_IMAGE_NAME = 'datacloud-templates/snj-base-lab-cc7'
         CYGNO_LAB_IMAGE_NAME = 'datacloud-templates/cygno-lab'
         CYGNO_LAB_WN_IMAGE_NAME = 'datacloud-templates/cygno-lab-wn'
+        JUP_MATLAB_IMAGE_NAME = 'datacloud-templates/jupyter_matlab'
         COLL_MATLAB_IMAGE_NAME = 'datacloud-templates/collaborative_matlab'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
@@ -274,24 +275,43 @@ pipeline {
         //     }
         // }
 
-        stage('Build Collaboration Matlab Image') {
+        stage('Build Jupyter Matlab Image') {
             steps {
                 script {
-                    def collMatImage = docker.build(
-                        "${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
+                    def jupMatImage = docker.build(
+                        "${JUP_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/persistence.Dockerfile docker/jupyter-matlab"
                     )
                 }
             }
         }
-        stage('Push Collaboration Matlab Image to Harbor') {
+        stage('Push Jupyter Matlab Image to Harbor') {
             steps {
                 script {
-                    def collMatImage = docker.image("${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {collMatImage.push()}
+                    def jupMatImage = docker.image("${JUP_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jupMatImage.push()}
                 }
             }
         }
+
+        // stage('Build Collaboration Matlab Image') {
+        //     steps {
+        //         script {
+        //             def collMatImage = docker.build(
+        //                 "${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Collaboration Matlab Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def collMatImage = docker.image("${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {collMatImage.push()}
+        //         }
+        //     }
+        // }
     }
     
     post {
