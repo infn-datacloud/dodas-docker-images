@@ -336,62 +336,62 @@ pipeline {
         //     }
         // }
 
-        stage('Build JaaS User Image') {
-            steps {
-                script {
-                    def jaasUserImage = docker.build(
-                        "${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--no-cache -f docker/naas-matlab/jaas-user-containers/jaas_user_containers.Dockerfile docker/naas-matlab/jaas-user-containers"
-                    )
-                }
-            }
-        }
-        stage('Push JaaS User Image to Harbor') {
-            steps {
-                script {
-                    def jaasUserImage = docker.image("${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jaasUserImage.push()}
-                }
-            }
-        }
+        // stage('Build JaaS User Image') {
+        //     steps {
+        //         script {
+        //             def jaasUserImage = docker.build(
+        //                 "${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--no-cache -f docker/naas-matlab/jaas-user-containers/jaas_user_containers.Dockerfile docker/naas-matlab/jaas-user-containers"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push JaaS User Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def jaasUserImage = docker.image("${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jaasUserImage.push()}
+        //         }
+        //     }
+        // }
 
-        stage('Build NaaS Matlab Image') {
-            steps {
-                script {
-                    def naasMatImage = docker.build(
-                        "${NAAS_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab/naas.Dockerfile docker/naas-matlab"
-                    )
-                }
-            }
-        }
-        stage('Push NaaS Matlab Image to Harbor') {
-            steps {
-                script {
-                    def naasMatImage = docker.image("${NAAS_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {naasMatImage.push()}
-                }
-            }
-        }
+        // stage('Build NaaS Matlab Image') {
+        //     steps {
+        //         script {
+        //             def naasMatImage = docker.build(
+        //                 "${NAAS_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab/naas.Dockerfile docker/naas-matlab"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push NaaS Matlab Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def naasMatImage = docker.image("${NAAS_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {naasMatImage.push()}
+        //         }
+        //     }
+        // }
 
-        stage('Build NaaS Parallel Matlab Image') {
-            steps {
-                script {
-                    def naasParalMatImage = docker.build(
-                        "${NAAS_PARALLEL_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab-parallel/naas-parallel.Dockerfile docker/naas-matlab-parallel"
-                    )
-                }
-            }
-        }
-        stage('Push NaaS Parallel Matlab Image to Harbor') {
-            steps {
-                script {
-                    def naasParalMatImage = docker.image("${NAAS_PARALLEL_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {naasParalMatImage.push()}
-                }
-            }
-        }
+        // stage('Build NaaS Parallel Matlab Image') {
+        //     steps {
+        //         script {
+        //             def naasParalMatImage = docker.build(
+        //                 "${NAAS_PARALLEL_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab-parallel/naas-parallel.Dockerfile docker/naas-matlab-parallel"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push NaaS Parallel Matlab Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def naasParalMatImage = docker.image("${NAAS_PARALLEL_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {naasParalMatImage.push()}
+        //         }
+        //     }
+        // }
     }
     
     post {

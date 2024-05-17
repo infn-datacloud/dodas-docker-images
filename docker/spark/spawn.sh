@@ -33,6 +33,6 @@ else
 
 	cd /.init/
 
-	.init/sts-wire https://iam.cloud.infn.it/  ${USERNAME} https://minio.cloud.infn.it/ /${USERNAME} s3/${USERNAME} > .mount_log_${USERNAME}.txt &
-	.init/sts-wire https://iam.cloud.infn.it/ scratch https://minio.cloud.infn.it/  /scratch s3/scratch > .mount_log_scratch.txt &
+	.init/sts-wire https://iam.cloud.infn.it/ ${USERNAME} https://minio.cloud.infn.it/ /${USERNAME} s3/${USERNAME} > .mount_log_${USERNAME}.txt &
+	.init/sts-wire https://iam.cloud.infn.it/ scratch https://minio.cloud.infn.it/ /scratch s3/scratch > .mount_log_scratch.txt &
 fi
