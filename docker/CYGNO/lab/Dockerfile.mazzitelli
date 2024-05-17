@@ -24,6 +24,7 @@ COPY lab/htcondor_ca.crt /etc/pki/ca-trust/source/anchors/
 COPY lab/condor_config.local /etc/condor/
 
 # clean metadata: https://srvfail.com/yum-doesnt-work-in-clean-centos-7-install-exiting-on-user-cancel/
+RUN yum-config-manager --save --setopt=htcondor-development.skip_if_unavailable=true
 RUN yum -y clean metadata \
     && yum --exclude=\*oidc-agent\* -y update \
     && yum --exclude=\*oidc-agent\* -y upgrade \
@@ -97,7 +98,12 @@ RUN pip3 install --no-cache-dir -U \
     mysql-connector==2.2.9 \
     tables==3.7.0 \
     lecroyparser==1.4.2 \
-    && pip3 install --no-cache-dir -U git+https://github.com/CYGNUS-RD/cygno.git@v1.0.14 \
+    Cython==3.0.2 \
+    ephem==4.1.5 \
+    iminuit==2.16.0 \
+    gspread==5.9.0 \
+    oauth2client==4.1.3 \
+    && pip3 install --no-cache-dir -U git+https://github.com/CYGNUS-RD/cygno.git@v1.0.17 \
     && pip3 install 'https://github.com/CYGNUS-RD/middleware/blob/master/midas/midaslib.tar.gz?raw=true'
 
 # Force default python in jupyter kernel to Python3

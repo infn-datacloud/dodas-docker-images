@@ -1,3 +1,4 @@
+# Image name: jhub -> based on docker-stacks-foundation:ubuntu-22.04
 FROM jupyter/docker-stacks-foundation:ubuntu-22.04
 
 LABEL Diego Ciangottini <diego.ciangottini@cern.ch> \
@@ -38,7 +39,7 @@ RUN jupyter serverextension enable --py sparkconnector &&  mkdir -p /home/$NB_US
 \n    c.NotebookApp.token = os.environ[\"JUPYTER_TOKEN\"] \
 " > /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
-RUN cd ${SPARK_BASE} && wget -nv -qO- https://downloads.apache.org/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz | tar zx && mv spark-3.4.1-bin-hadoop3 spark
+RUN cd ${SPARK_BASE} && wget -nv -qO- https://downloads.apache.org/spark/spark-3.4.3/spark-3.4.3-bin-hadoop3.tgz | tar zx && mv spark-3.4.3-bin-hadoop3 spark
 
 ADD  https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.99/aws-java-sdk-bundle-1.12.99.jar \
      https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar ${SPARK_HOME}/jars/
@@ -46,8 +47,9 @@ ADD  https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.99/aw
 COPY spark-defaults.conf ${SPARK_HOME}/conf/spark-defaults.conf
 COPY --chmod=755 spawn.sh /home/$NB_USER/SWAN_projects/.init/spawn.sh
 
-RUN wget -nv https://github.com/DODAS-TS/sts-wire/releases/download/v2.1.2/sts-wire_linux -O /home/$NB_USER/SWAN_projects/.init/sts-wire && \
-    chmod +x /home/$NB_USER/SWAN_projects/.init/sts-wire && apt-get -qq update && apt-get -qq install -y software-properties-common gnupg xvfb && \
+RUN wget -nv https://repo.cloud.cnaf.infn.it/repository/sts-wire/sts-wire-linux/2.1.5/sts-wire-linux-2.1.5 -O /home/$NB_USER/SWAN_projects/.init/sts-wire && \
+    chmod +x /home/$NB_USER/SWAN_projects/.init/sts-wire
+RUN apt-get -qq update && apt-get -qq install -y software-properties-common gnupg xvfb && \
     apt-key adv --keyserver hkp://pgp.surfnet.nl --recv-keys ACDFB08FDC962044D87FF00B512839863D487A87 && \
     add-apt-repository "deb http://repo.data.kit.edu/ubuntu/jammy ./" && apt-get -qq update && apt-get -qq install -y oidc-agent fuse && \
     chown -R $NB_UID:$NB_GID /home/$NB_USER/ ${SPARK_HOME}/ && rm -rf /var/lib/apt/lists/*

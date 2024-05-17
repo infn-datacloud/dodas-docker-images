@@ -25,6 +25,7 @@ pipeline {
         JAAS_USER_IMAGE_NAME = 'datacloud-templates/jaas_user_containers'
         NAAS_MATLAB_IMAGE_NAME = 'datacloud-templates/naas_matlab'
         NAAS_PARALLEL_IMAGE_NAME = 'datacloud-templates/naas_matlab_parallel'
+        SPARK_IMAGE_NAME = 'datacloud-templates/jhub'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -241,24 +242,24 @@ pipeline {
         //     }
         // }
         
-        // stage('Build Cygno Image') {
-        //     steps {
-        //         script {
-        //             def cygnoImage = docker.build(
-        //                 "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
-        //             )
-        //         }
-        //     }
-        // }
-        // stage('Push Cygno Image to Harbor') {
-        //     steps {
-        //         script {
-        //             def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
-        //         }
-        //     }
-        // }
+        stage('Build Cygno Image') {
+            steps {
+                script {
+                    def cygnoImage = docker.build(
+                        "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile.mazzitelli docker/CYGNO"
+                    )
+                }
+            }
+        }
+        stage('Push Cygno Image to Harbor') {
+            steps {
+                script {
+                    def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
+                }
+            }
+        }
 
         // stage('Build Cygno WN Image') {
         //     steps {
@@ -392,6 +393,25 @@ pipeline {
         //         }
         //     }
         // }
+
+        stage('Build Spark Image') {
+            steps {
+                script {
+                    def sparkImage = docker.build(
+                        "${SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--no-cache -f docker/spark/Dockerfile docker/spark"
+                    )
+                }
+            }
+        }
+        stage('Push Spark Image to Harbor') {
+            steps {
+                script {
+                    def sparkImage = docker.image("${SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {sparkImage.push()}
+                }
+            }
+        }
     }
     
     post {
