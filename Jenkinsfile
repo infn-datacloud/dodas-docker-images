@@ -242,24 +242,24 @@ pipeline {
         //     }
         // }
         
-        stage('Build Cygno Image') {
-            steps {
-                script {
-                    def cygnoImage = docker.build(
-                        "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-                        "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile.mazzitelli docker/CYGNO"
-                    )
-                }
-            }
-        }
-        stage('Push Cygno Image to Harbor') {
-            steps {
-                script {
-                    def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
-                }
-            }
-        }
+        // stage('Build Cygno Image') {
+        //     steps {
+        //         script {
+        //             def cygnoImage = docker.build(
+        //                 "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile.mazzitelli docker/CYGNO"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push Cygno Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
+        //         }
+        //     }
+        // }
 
         // stage('Build Cygno WN Image') {
         //     steps {
