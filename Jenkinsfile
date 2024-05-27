@@ -25,7 +25,8 @@ pipeline {
         JAAS_USER_IMAGE_NAME = 'datacloud-templates/jaas_user_containers'
         NAAS_MATLAB_IMAGE_NAME = 'datacloud-templates/naas_matlab'
         NAAS_PARALLEL_IMAGE_NAME = 'datacloud-templates/naas_matlab_parallel'
-        SPARK_IMAGE_NAME = 'datacloud-templates/jhub'
+        SPARK_IMAGE_NAME = 'datacloud-templates/spark'
+        JHUB_SPARK_IMAGE_NAME = 'datacloud-templates/jhub-spark'
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -409,6 +410,25 @@ pipeline {
                 script {
                     def sparkImage = docker.image("${SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
                     docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {sparkImage.push()}
+                }
+            }
+        }
+
+        stage('Build JHUB Spark Image') {
+            steps {
+                script {
+                    def jhubsparkImage = docker.build(
+                        "${JHUB_SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+                    )
+                }
+            }
+        }
+        stage('Push JHUB Spark Image to Harbor') {
+            steps {
+                script {
+                    def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
                 }
             }
         }

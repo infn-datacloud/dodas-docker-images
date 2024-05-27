@@ -1,4 +1,4 @@
-# Image dodasts/spark:v3.4.3-spark
+# Image jhub-spark
 FROM ghcr.io/dodas-ts/dodas-iam-client-rec:v0.0.6 as REGISTRATION
 
 FROM jupyter/base-notebook:lab-4.0.2
