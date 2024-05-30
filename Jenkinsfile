@@ -1,3 +1,11 @@
+def getReleaseVersion(String tagName) {
+    if (tagName) {
+        return tagName.replaceAll(/^v/, '')
+    } else {
+        return null
+    }
+}
+
 pipeline {
 
     agent {
@@ -27,6 +35,8 @@ pipeline {
         NAAS_PARALLEL_IMAGE_NAME = 'datacloud-templates/naas_matlab_parallel'
         SPARK_IMAGE_NAME = 'datacloud-templates/spark'
         JHUB_SPARK_IMAGE_NAME = 'datacloud-templates/jhub-spark'
+
+        RELEASE_VERSION = getReleaseVersion(TAG_NAME)
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
@@ -399,7 +409,7 @@ pipeline {
             steps {
                 script {
                     def sparkImage = docker.build(
-                        "${SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+                        "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
                         "--no-cache -f docker/spark/Dockerfile docker/spark"
                     )
                 }
@@ -408,7 +418,7 @@ pipeline {
         stage('Push Spark Image to Harbor') {
             steps {
                 script {
-                    def sparkImage = docker.image("${SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+                    def sparkImage = docker.image("${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
                     docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {sparkImage.push()}
                 }
             }
