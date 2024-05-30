@@ -1,3 +1,4 @@
+# Image name: jaas_user_containers -> based on ubuntu:20.04
 FROM ubuntu:20.04
 
 ARG JUPYTER_ROOT=/workarea
