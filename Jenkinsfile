@@ -45,7 +45,7 @@ pipeline {
         //     steps {
         //         script {
         //             def jhubImage = docker.build(
-        //                 "${JHUB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
         //             )
         //         }
@@ -54,7 +54,7 @@ pipeline {
         // stage('Push Hub Image to Harbor') {
         //     steps {
         //         script {
-        //             def jhubImage = docker.image("${JHUB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def jhubImage = docker.image("${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubImage.push()}
         //         }
         //     }
@@ -64,7 +64,7 @@ pipeline {
         //     steps {
         //         script {
         //             def baseLabImage = docker.build(
-        //                 "${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
         //             )
         //         }
@@ -73,7 +73,7 @@ pipeline {
         // stage('Push Base Image to Harbor') {
         //     steps {
         //         script {
-        //             def baseLabImage = docker.image("${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def baseLabImage = docker.image("${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabImage.push()}
         //         }
         //     }
@@ -85,8 +85,8 @@ pipeline {
         //             steps {
         //                 script {
         //                     def labPerstenceImage = docker.build(
-        //                         "${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                         "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
+        //                         "${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                         "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
         //                     )
         //                 }
         //             }
@@ -95,8 +95,8 @@ pipeline {
         //             steps {
         //                 script {
         //                     def labCollImage = docker.build(
-        //                         "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                         "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
+        //                         "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                         "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
         //                     )
         //                 }
         //             }
@@ -106,7 +106,7 @@ pipeline {
         // stage('Push Derived Persistence Image to Harbor') {
         //     steps {
         //         script {
-        //             def labPerstenceImage = docker.image("${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def labPerstenceImage = docker.image("${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labPerstenceImage.push()}
         //         }
         //     }
@@ -114,7 +114,7 @@ pipeline {
         // stage('Push Derived Collaborative Image to Harbor') {
         //     steps {
         //         script {
-        //             def labCollImage = docker.image("${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def labCollImage = docker.image("${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labCollImage.push()}
         //         }
         //     }
@@ -124,7 +124,7 @@ pipeline {
         //     steps {
         //         script {
         //             def CollProxyImage = docker.build(
-        //                 "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
         //             )
         //         }
@@ -133,7 +133,7 @@ pipeline {
         // stage('Push Collaborative Proxy Image to Harbor') {
         //     steps {
         //         script {
-        //             def CollProxyImage = docker.image("${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def CollProxyImage = docker.image("${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {CollProxyImage.push()}
         //         }
         //     }
@@ -143,7 +143,7 @@ pipeline {
         //     steps {
         //         script {
         //             def notebookImage = docker.build(
-        //                 "${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
         //             )
         //         }
@@ -152,7 +152,7 @@ pipeline {
         // stage('Push Notebook Image to Harbor') {
         //     steps {
         //         script {
-        //             def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def notebookImage = docker.image("${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {notebookImage.push()}
         //         }
         //     }
@@ -162,7 +162,7 @@ pipeline {
         //     steps {
         //         script {
         //             def baseLabGpuImage = docker.build(
-        //                 "${BASE_LAB_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${BASE_LAB_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
         //             )
         //         }
@@ -171,7 +171,7 @@ pipeline {
         // stage('Push Base Lab GPU Image to Harbor') {
         //     steps {
         //         script {
-        //             def baseLabGpuImage = docker.image("${BASE_LAB_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def baseLabGpuImage = docker.image("${BASE_LAB_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabGpuImage.push()}
         //         }
         //     }
@@ -181,7 +181,7 @@ pipeline {
         //     steps {
         //         script {
         //             def labCollGpuImage = docker.build(
-        //                 "${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
         //             )
         //         }
@@ -190,7 +190,7 @@ pipeline {
         // stage('Push Collaborative GPU Image to Harbor') {
         //     steps {
         //         script {
-        //             def labCollGpuImage = docker.image("${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def labCollGpuImage = docker.image("${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labCollGpuImage.push()}
         //         }
         //     }
@@ -200,8 +200,8 @@ pipeline {
         //     steps {
         //         script {
         //             def baseMLImage = docker.build(
-        //                 "${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${BASE_LAB_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/ML-INFN/lab/Dockerfile docker/ML-INFN/lab"
+        //                 "${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${BASE_LAB_GPU_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/ML-INFN/lab/Dockerfile docker/ML-INFN/lab"
         //             )
         //         }
         //     }
@@ -209,7 +209,7 @@ pipeline {
         // stage('Push Base ML_INFN Image to Harbor') {
         //     steps {
         //         script {
-        //             def baseMLImage = docker.image("${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def baseMLImage = docker.image("${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseMLImage.push()}
         //         }
         //     }
@@ -219,8 +219,8 @@ pipeline {
         //     steps {
         //         script {
         //             def MLCollImage = docker.build(
-        //                 "${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/ML-INFN/jupyterlab-collaborative/Dockerfile docker/ML-INFN/jupyterlab-collaborative"
+        //                 "${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/ML-INFN/jupyterlab-collaborative/Dockerfile docker/ML-INFN/jupyterlab-collaborative"
         //             )
         //         }
         //     }
@@ -228,7 +228,7 @@ pipeline {
         // stage('Push ML_INFN Collaborative Image to Harbor') {
         //     steps {
         //         script {
-        //             def MLCollImage = docker.image("${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def MLCollImage = docker.image("${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {MLCollImage.push()}
         //         }
         //     }
@@ -238,7 +238,7 @@ pipeline {
         //     steps {
         //         script {
         //             def baseLabCC7Image = docker.build(
-        //                 "${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}", 
+        //                 "${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION}", 
         //                 "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
         //             )
         //         }
@@ -247,7 +247,7 @@ pipeline {
         // stage('Push Base Lab CC7 Image to Harbor') {
         //     steps {
         //         script {
-        //             def baseLabCC7Image = docker.image("${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def baseLabCC7Image = docker.image("${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabCC7Image.push()}
         //         }
         //     }
@@ -257,8 +257,8 @@ pipeline {
         //     steps {
         //         script {
         //             def cygnoImage = docker.build(
-        //                 "${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --no-cache -f docker/CYGNO/lab/Dockerfile.mazzitelli docker/CYGNO"
+        //                 "${CYGNO_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/CYGNO/lab/Dockerfile.mazzitelli docker/CYGNO"
         //             )
         //         }
         //     }
@@ -266,7 +266,7 @@ pipeline {
         // stage('Push Cygno Image to Harbor') {
         //     steps {
         //         script {
-        //             def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def cygnoImage = docker.image("${CYGNO_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoImage.push()}
         //         }
         //     }
@@ -276,7 +276,7 @@ pipeline {
         //     steps {
         //         script {
         //             def cygnoWNImage = docker.build(
-        //                 "${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${CYGNO_LAB_WN_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO"
         //             )
         //         }
@@ -285,7 +285,7 @@ pipeline {
         // stage('Push Cygno WN Image to Harbor') {
         //     steps {
         //         script {
-        //             def cygnoWNImage = docker.image("${CYGNO_LAB_WN_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def cygnoWNImage = docker.image("${CYGNO_LAB_WN_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {cygnoWNImage.push()}
         //         }
         //     }
@@ -295,8 +295,8 @@ pipeline {
         //     steps {
         //         script {
         //             def jupMatImage = docker.build(
-        //                 "${JUP_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/persistence.Dockerfile docker/jupyter-matlab"
+        //                 "${JUP_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/persistence.Dockerfile docker/jupyter-matlab"
         //             )
         //         }
         //     }
@@ -304,7 +304,7 @@ pipeline {
         // stage('Push Jupyter Matlab Image to Harbor') {
         //     steps {
         //         script {
-        //             def jupMatImage = docker.image("${JUP_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def jupMatImage = docker.image("${JUP_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jupMatImage.push()}
         //         }
         //     }
@@ -314,8 +314,8 @@ pipeline {
         //     steps {
         //         script {
         //             def collMatImage = docker.build(
-        //                 "${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
+        //                 "${COLL_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
         //             )
         //         }
         //     }
@@ -323,7 +323,7 @@ pipeline {
         // stage('Push Collaboration Matlab Image to Harbor') {
         //     steps {
         //         script {
-        //             def collMatImage = docker.image("${COLL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def collMatImage = docker.image("${COLL_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {collMatImage.push()}
         //         }
         //     }
@@ -333,8 +333,8 @@ pipeline {
         //     steps {
         //         script {
         //             def paralMatImage = docker.build(
-        //                 "${PARAL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab-parallel/persistence-parallel.Dockerfile docker/jupyter-matlab-parallel"
+        //                 "${PARAL_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab-parallel/persistence-parallel.Dockerfile docker/jupyter-matlab-parallel"
         //             )
         //         }
         //     }
@@ -342,7 +342,7 @@ pipeline {
         // stage('Push Jupyter Matlab Parallel Image to Harbor') {
         //     steps {
         //         script {
-        //             def paralMatImage = docker.image("${PARAL_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def paralMatImage = docker.image("${PARAL_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {paralMatImage.push()}
         //         }
         //     }
@@ -352,7 +352,7 @@ pipeline {
         //     steps {
         //         script {
         //             def jaasUserImage = docker.build(
-        //                 "${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
+        //                 "${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/naas-matlab/jaas-user-containers/jaas_user_containers.Dockerfile docker/naas-matlab/jaas-user-containers"
         //             )
         //         }
@@ -361,7 +361,7 @@ pipeline {
         // stage('Push JaaS User Image to Harbor') {
         //     steps {
         //         script {
-        //             def jaasUserImage = docker.image("${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def jaasUserImage = docker.image("${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jaasUserImage.push()}
         //         }
         //     }
@@ -371,8 +371,8 @@ pipeline {
         //     steps {
         //         script {
         //             def naasMatImage = docker.build(
-        //                 "${NAAS_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab/naas.Dockerfile docker/naas-matlab"
+        //                 "${NAAS_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab/naas.Dockerfile docker/naas-matlab"
         //             )
         //         }
         //     }
@@ -380,7 +380,7 @@ pipeline {
         // stage('Push NaaS Matlab Image to Harbor') {
         //     steps {
         //         script {
-        //             def naasMatImage = docker.image("${NAAS_MATLAB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def naasMatImage = docker.image("${NAAS_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {naasMatImage.push()}
         //         }
         //     }
@@ -390,8 +390,8 @@ pipeline {
         //     steps {
         //         script {
         //             def naasParalMatImage = docker.build(
-        //                 "${NAAS_PARALLEL_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab-parallel/naas-parallel.Dockerfile docker/naas-matlab-parallel"
+        //                 "${NAAS_PARALLEL_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab-parallel/naas-parallel.Dockerfile docker/naas-matlab-parallel"
         //             )
         //         }
         //     }
@@ -399,7 +399,7 @@ pipeline {
         // stage('Push NaaS Parallel Matlab Image to Harbor') {
         //     steps {
         //         script {
-        //             def naasParalMatImage = docker.image("${NAAS_PARALLEL_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
+        //             def naasParalMatImage = docker.image("${NAAS_PARALLEL_IMAGE_NAME}:${env.RELEASE_VERSION}")
         //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {naasParalMatImage.push()}
         //         }
         //     }
@@ -424,24 +424,24 @@ pipeline {
         //     }
         // }
 
-        stage('Build JHUB Spark Image') {
-            steps {
-                script {
-                    def jhubsparkImage = docker.build(
-                        "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
-                        "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
-                    )
-                }
-            }
-        }
-        stage('Push JHUB Spark Image to Harbor') {
-            steps {
-                script {
-                    def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
-                }
-            }
-        }
+        // stage('Build JHUB Spark Image') {
+        //     steps {
+        //         script {
+        //             def jhubsparkImage = docker.build(
+        //                 "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push JHUB Spark Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
+        //         }
+        //     }
+        // }
     }
     
     post {
