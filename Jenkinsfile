@@ -405,43 +405,43 @@ pipeline {
         //     }
         // }
 
-        stage('Build Spark Image') {
-            steps {
-                script {
-                    def sparkImage = docker.build(
-                        "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
-                        "--no-cache -f docker/spark/Dockerfile docker/spark"
-                    )
-                }
-            }
-        }
-        stage('Push Spark Image to Harbor') {
-            steps {
-                script {
-                    def sparkImage = docker.image("${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {sparkImage.push()}
-                }
-            }
-        }
-
-        // stage('Build JHUB Spark Image') {
+        // stage('Build Spark Image') {
         //     steps {
         //         script {
-        //             def jhubsparkImage = docker.build(
-        //                 "${JHUB_SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}",
-        //                 "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+        //             def sparkImage = docker.build(
+        //                 "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--no-cache -f docker/spark/Dockerfile docker/spark"
         //             )
         //         }
         //     }
         // }
-        // stage('Push JHUB Spark Image to Harbor') {
+        // stage('Push Spark Image to Harbor') {
         //     steps {
         //         script {
-        //             def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}")
-        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
+        //             def sparkImage = docker.image("${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {sparkImage.push()}
         //         }
         //     }
         // }
+
+        stage('Build JHUB Spark Image') {
+            steps {
+                script {
+                    def jhubsparkImage = docker.build(
+                        "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
+                        "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+                    )
+                }
+            }
+        }
+        stage('Push JHUB Spark Image to Harbor') {
+            steps {
+                script {
+                    def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
+                }
+            }
+        }
     }
     
     post {
