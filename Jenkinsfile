@@ -41,6 +41,7 @@ pipeline {
     }
     
     stages {
+        when { tag "v*" }
         // stage('Build Hub Image') {
         //     steps {
         //         script {
@@ -424,24 +425,24 @@ pipeline {
         //     }
         // }
 
-        // stage('Build JHUB Spark Image') {
-        //     steps {
-        //         script {
-        //             def jhubsparkImage = docker.build(
-        //                 "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
-        //                 "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
-        //             )
-        //         }
-        //     }
-        // }
-        // stage('Push JHUB Spark Image to Harbor') {
-        //     steps {
-        //         script {
-        //             def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
-        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
-        //         }
-        //     }
-        // }
+        stage('Build JHUB Spark Image') {
+            steps {
+                script {
+                    def jhubsparkImage = docker.build(
+                        "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
+                        "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+                    )
+                }
+            }
+        }
+        stage('Push JHUB Spark Image to Harbor') {
+            steps {
+                script {
+                    def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
+                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
+                }
+            }
+        }
     }
     
     post {
