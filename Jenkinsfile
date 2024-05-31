@@ -54,9 +54,7 @@ pipeline {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKERFILE_PATH = "docker/single-node-jupyterhub/jupyterhub/Dockerfile"
-        //         DOCKERBUILD_DIR = "docker/single-node-jupyterhub/jupyterhub"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f ${env.DOCKERFILE_PATH} ${env.DOCKERBUILD_DIR}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
         //     }
         //     steps {
         //         script {
@@ -66,64 +64,43 @@ pipeline {
         // }
         
         // stage('Build Base Lab Image') {
-        //     steps {
-        //         script {
-        //             def baseLabImage = docker.build(
-        //                 "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
-        //                 "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
-        //             )
-        //         }
+        //     when { expression { return isTag() } }
+        //     environment {
+        //         IMAGE_NAME = "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
         //     }
-        // }
-        // stage('Push Base Image to Harbor') {
         //     steps {
         //         script {
-        //             def baseLabImage = docker.image("${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}")
-        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {baseLabImage.push()}
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
         //         }
         //     }
         // }
  
-        stage('Build Derived Lab Image') {
-            parallel {
-                stage('Build Persistence Image'){
-                    steps {
-                        script {
-                            def labPerstenceImage = docker.build(
-                                "${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}",
-                                "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
-                            )
-                        }
-                    }
-                }
-                stage('Build Collaborative Image'){
-                    steps {
-                        script {
-                            def labCollImage = docker.build(
-                                "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}",
-                                "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
-                            )
-                        }
-                    }
-                }
+        stage('Build Persistence Image') {
+            when { expression { return isTag() } }
+            environment {
+                IMAGE_NAME = "${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
             }
-        }
-        stage('Push Derived Persistence Image to Harbor') {
             steps {
                 script {
-                    def labPerstenceImage = docker.image("${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labPerstenceImage.push()}
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
                 }
             }
         }
-        stage('Push Derived Collaborative Image to Harbor') {
-            steps {
-                script {
-                    def labCollImage = docker.image("${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {labCollImage.push()}
-                }
-            }
-        }
+
+        // stage('Build Collaborative Image') {
+        //     when { expression { return isTag() } }
+        //     environment {
+        //         IMAGE_NAME = "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
+        //     }
+        //     steps {
+        //         script {
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+        //         }
+        //     }
+        // }
  
         // stage('Build Collaborative Proxy Image') {
         //     steps {
