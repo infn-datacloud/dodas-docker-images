@@ -41,7 +41,6 @@ pipeline {
     }
     
     stages {
-        when { tag "v*" }
         // stage('Build Hub Image') {
         //     steps {
         //         script {
