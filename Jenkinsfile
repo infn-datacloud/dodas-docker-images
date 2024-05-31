@@ -1,23 +1,10 @@
-def isBranchMasterAndIsTag() {
-    return env.BRANCH_NAME=="master" && env.GIT_TAG!=null && env.GIT_TAG != ''
+def isTag() {
+    return env.GIT_TAG!=null && env.GIT_TAG != ''
 }
- 
-def isNotBranchMaster() {
-    return env.BRANCH_NAME!="master"
-}
- 
-// def buildAndPushImage(String imageName, String dockerFilePath, String dockerBuildDir) {
-//     def dockerImage = docker.build(imageName, "--no-cache -f ${dockerFilePath} ${dockerBuildDir}")
-//     docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-//         dockerImage.push()
-//     }
-// }
  
 def buildAndPushImage(String imageName, String dockerBuildOptions) {
     def dockerImage = docker.build(imageName, dockerBuildOptions)
-    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
-        dockerImage.push()
-    }
+    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) { dockerImage.push() }
 }
  
 def getReleaseVersion(String tagName) {
@@ -63,24 +50,10 @@ pipeline {
     }
     
     stages {
-        stage('Build and Push jHub Image if master') {
-            when { expression { return isBranchMasterAndIsTag() } }
+        stage('Build and Push jHub Image') {
+            when { expression { return isTag() } }
             environment {
                 IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKERFILE_PATH = "docker/single-node-jupyterhub/jupyterhub/Dockerfile"
-                DOCKERBUILD_DIR = "docker/single-node-jupyterhub/jupyterhub"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f ${env.DOCKERFILE_PATH} ${env.DOCKERBUILD_DIR}"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
-        stage('Build and Push jHub Image if not master') {
-            when { expression { return isNotBranchMaster() } }
-            environment {
-                IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}"
                 DOCKERFILE_PATH = "docker/single-node-jupyterhub/jupyterhub/Dockerfile"
                 DOCKERBUILD_DIR = "docker/single-node-jupyterhub/jupyterhub"
                 DOCKER_BUILD_OPTIONS = "--no-cache -f ${env.DOCKERFILE_PATH} ${env.DOCKERBUILD_DIR}"
