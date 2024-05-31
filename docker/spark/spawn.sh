@@ -30,6 +30,6 @@ else
 	mkdir -p s3/${USERNAME}
 	mkdir -p s3/scratch
 
-	.init/sts-wire https://iam.cloud.infn.it/ "${USERNAME}" https://rgw.cloud.infn.it/ IAMaccess object "/${USERNAME}" "s3/${USERNAME}" > ".mount_log_${USERNAME}.txt" &
 	.init/sts-wire https://iam.cloud.infn.it/ scratch https://rgw.cloud.infn.it/ IAMaccess object /scratch s3/scratch > .mount_log_scratch.txt &
+	.init/sts-wire https://iam.cloud.infn.it/ "${USERNAME}" https://rgw.cloud.infn.it/ IAMaccess object "/${USERNAME}" "s3/${USERNAME}" > ".mount_log_${USERNAME}.txt" &
 fi

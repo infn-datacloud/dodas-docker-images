@@ -1,5 +1,4 @@
 # Image name: spark -> based on docker-stacks-foundation:ubuntu-22.04
-#FROM jupyter/docker-stacks-foundation:ubuntu-22.04
 FROM quay.io/jupyter/docker-stacks-foundation:ubuntu-22.04
 
 LABEL Diego Ciangottini <diego.ciangottini@cern.ch> \
