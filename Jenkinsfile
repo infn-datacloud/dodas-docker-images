@@ -258,7 +258,7 @@ pipeline {
         //         script {
         //             def cygnoImage = docker.build(
         //                 "${CYGNO_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}",
-        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/CYGNO/lab/Dockerfile.mazzitelli docker/CYGNO"
+        //                 "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
         //             )
         //         }
         //     }
