@@ -64,7 +64,7 @@ pipeline {
     }
     
     stages {
-        stage('Build and Push jHub Image') {
+        stage('Build and Push jHub Image if master') {
             when { expression { return isBranchMasterAndIsTag() } }
             environment {
                 IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
@@ -78,7 +78,7 @@ pipeline {
                 }
             }
         }
-        stage('Build and Push jHub Image') {
+        stage('Build and Push jHub Image if not master') {
             when { expression { return isNotBranchMaster() } }
             environment {
                 IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}"
