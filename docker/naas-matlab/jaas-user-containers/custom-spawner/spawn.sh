@@ -18,7 +18,6 @@ kill `ps faux | grep ".${USERNAME}" | awk '{ print $2 }'`
 kill `ps faux | grep "sts-wire scratch" | awk '{ print $2 }'`
 kill `ps faux | grep ".scratch" | awk '{ print $2 }'`
 
-mkdir -p /s3/
 mkdir -p /s3/${USERNAME}
 mkdir -p /s3/scratch
 mkdir -p /opt/user_data/cache/${USERNAME}

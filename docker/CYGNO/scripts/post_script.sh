@@ -7,17 +7,11 @@ BASE_CACHE_DIR="/usr/local/share/dodasts/sts-wire/cache"
 mkdir -p "${BASE_CACHE_DIR}"
 mkdir -p /usr/local/share/dodasts/sts-wire/cache
 mkdir -p /var/log/sts-wire/
-mkdir -p /s3/
 mkdir -p /s3/"${USERNAME}"
 mkdir -p /s3/scratch
-#mkdir -p /s3/cygno
 mkdir -p /s3/cygno-analysis
 mkdir -p /s3/cygno-sim
 mkdir -p /s3/cygno-data
-
-# sts-wire https://iam.cloud.infn.it/ "${USERNAME}" https://minio.cloud.infn.it/ "/${USERNAME}" "/s3/${USERNAME}" &>"/var/log/sts-wire/mount_log_${USERNAME}.log" &
-# sts-wire https://iam.cloud.infn.it/ scratch https://minio.cloud.infn.it/ /scratch /s3/scratch &>/var/log/sts-wire/mount_log_scratch.log &
-# sts-wire https://iam.cloud.infn.it/ cygnus https://minio.cloud.infn.it/ /cygnus /s3/cygnus &>/var/log/sts-wire/mount_log_cygnus.log &
 
 sleep 1s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     "${USERNAME}" https://rgw.cloud.infn.it/ IAMaccess object \

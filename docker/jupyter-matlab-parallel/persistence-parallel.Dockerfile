@@ -105,7 +105,6 @@ ENV BASE_CACHE_DIR="/usr/local/share/dodasts/sts-wire/cache"
 RUN mkdir -p ${BASE_CACHE_DIR} && \
     mkdir -p /usr/local/share/dodasts/sts-wire/cache && \
     mkdir -p /var/log/sts-wire/ && \
-    mkdir -p /s3/ && \
     mkdir -p /s3/scratch
 
 # Switch back to notebook user
