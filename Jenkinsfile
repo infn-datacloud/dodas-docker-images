@@ -1,3 +1,26 @@
+[11:59] Enrico Vianello
+def isBranchMasterAndIsTag() {
+    return env.BRANCH_NAME=="master" && env.GIT_TAG!=null && env.GIT_TAG != ''
+}
+ 
+def isNotBranchMaster() {
+    return env.BRANCH_NAME!="master"
+}
+ 
+// def buildAndPushImage(String imageName, String dockerFilePath, String dockerBuildDir) {
+//     def dockerImage = docker.build(imageName, "--no-cache -f ${dockerFilePath} ${dockerBuildDir}")
+//     docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
+//         dockerImage.push()
+//     }
+// }
+ 
+def buildAndPushImage(String imageName, String dockerBuildOptions) {
+    def dockerImage = docker.build(imageName, dockerBuildOptions)
+    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
+        dockerImage.push()
+    }
+}
+ 
 def getReleaseVersion(String tagName) {
     if (tagName) {
         return tagName.replaceAll(/^v/, '')
@@ -5,9 +28,9 @@ def getReleaseVersion(String tagName) {
         return null
     }
 }
-
+ 
 pipeline {
-
+ 
     agent {
         node { label 'jenkinsworker00' }
     }
@@ -35,30 +58,40 @@ pipeline {
         NAAS_PARALLEL_IMAGE_NAME = 'datacloud-templates/naas_matlab_parallel'
         SPARK_IMAGE_NAME = 'datacloud-templates/spark'
         JHUB_SPARK_IMAGE_NAME = 'datacloud-templates/jhub-spark'
-
+ 
         RELEASE_VERSION = getReleaseVersion(TAG_NAME)
         SANITIZED_BRANCH_NAME = env.BRANCH_NAME.replace('/', '_')
     }
     
     stages {
-        // stage('Build Hub Image') {
-        //     steps {
-        //         script {
-        //             def jhubImage = docker.build(
-        //                 "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}",
-        //                 "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
-        //             )
-        //         }
-        //     }
-        // }
-        // stage('Push Hub Image to Harbor') {
-        //     steps {
-        //         script {
-        //             def jhubImage = docker.image("${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}")
-        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubImage.push()}
-        //         }
-        //     }
-        // }
+        stage('Build and Push jHub Image') {
+            when { expression { return isBranchMasterAndIsTag() } }
+            environment {
+                IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKERFILE_PATH = "docker/single-node-jupyterhub/jupyterhub/Dockerfile"
+                DOCKERBUILD_DIR = "docker/single-node-jupyterhub/jupyterhub"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f ${env.DOCKERFILE_PATH} ${env.DOCKERBUILD_DIR}"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
+        stage('Build and Push jHub Image') {
+            when { expression { return isNotBranchMaster() } }
+            environment {
+                IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.SANITIZED_BRANCH_NAME}"
+                DOCKERFILE_PATH = "docker/single-node-jupyterhub/jupyterhub/Dockerfile"
+                DOCKERBUILD_DIR = "docker/single-node-jupyterhub/jupyterhub"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f ${env.DOCKERFILE_PATH} ${env.DOCKERBUILD_DIR}"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
         
         // stage('Build Base Lab Image') {
         //     steps {
@@ -78,7 +111,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Derived Lab Image') {
         //     parallel {
         //         stage('Build Persistence Image'){
@@ -119,7 +152,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Collaborative Proxy Image') {
         //     steps {
         //         script {
@@ -138,7 +171,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Notebook Image') {
         //     steps {
         //         script {
@@ -195,7 +228,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Base ML_INFN Image') {
         //     steps {
         //         script {
@@ -233,12 +266,12 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Base Lab CC7 Image') {
         //     steps {
         //         script {
         //             def baseLabCC7Image = docker.build(
-        //                 "${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION}", 
+        //                 "${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION}",
         //                 "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
         //             )
         //         }
@@ -271,7 +304,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Cygno WN Image') {
         //     steps {
         //         script {
@@ -290,7 +323,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Jupyter Matlab Image') {
         //     steps {
         //         script {
@@ -309,7 +342,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Collaboration Matlab Image') {
         //     steps {
         //         script {
@@ -328,7 +361,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Jupyter Parallel Matlab Image') {
         //     steps {
         //         script {
@@ -347,7 +380,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build JaaS User Image') {
         //     steps {
         //         script {
@@ -366,7 +399,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build NaaS Matlab Image') {
         //     steps {
         //         script {
@@ -385,7 +418,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build NaaS Parallel Matlab Image') {
         //     steps {
         //         script {
@@ -404,7 +437,7 @@ pipeline {
         //         }
         //     }
         // }
-
+ 
         // stage('Build Spark Image') {
         //     steps {
         //         script {
@@ -423,25 +456,25 @@ pipeline {
         //         }
         //     }
         // }
-
-        stage('Build JHUB Spark Image') {
-            steps {
-                script {
-                    def jhubsparkImage = docker.build(
-                        "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
-                        "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
-                    )
-                }
-            }
-        }
-        stage('Push JHUB Spark Image to Harbor') {
-            steps {
-                script {
-                    def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
-                    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
-                }
-            }
-        }
+ 
+        // stage('Build JHUB Spark Image') {
+        //     steps {
+        //         script {
+        //             def jhubsparkImage = docker.build(
+        //                 "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}",
+        //                 "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+        //             )
+        //         }
+        //     }
+        // }
+        // stage('Push JHUB Spark Image to Harbor') {
+        //     steps {
+        //         script {
+        //             def jhubsparkImage = docker.image("${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}")
+        //             docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {jhubsparkImage.push()}
+        //         }
+        //     }
+        // }
     }
     
     post {
@@ -453,3 +486,4 @@ pipeline {
         }
     }
 }
+ 
