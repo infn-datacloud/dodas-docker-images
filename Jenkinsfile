@@ -1,4 +1,3 @@
-[11:59] Enrico Vianello
 def isBranchMasterAndIsTag() {
     return env.BRANCH_NAME=="master" && env.GIT_TAG!=null && env.GIT_TAG != ''
 }
