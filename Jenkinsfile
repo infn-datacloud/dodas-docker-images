@@ -63,7 +63,7 @@ pipeline {
         //     }
         // }
         
-        // stage('Build Base Lab Image') {
+        // stage('Build and Push Base Lab Image') {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
@@ -76,8 +76,8 @@ pipeline {
         //     }
         // }
  
-        stage('Build Persistence Image') {
-            when { expression { return isTag() } }
+        stage('Build and Push Persistence Image') {
+        // when { expression { return isTag() } }
             environment {
                 IMAGE_NAME = "${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}"
                 DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
@@ -89,7 +89,7 @@ pipeline {
             }
         }
 
-        // stage('Build Collaborative Image') {
+        // stage('Build and Push Collaborative Image') {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}"
