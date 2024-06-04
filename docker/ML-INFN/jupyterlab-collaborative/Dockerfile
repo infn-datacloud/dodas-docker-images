@@ -1,5 +1,5 @@
 # Image name: ml-infn-jlabc
-FROM harbor.cloud.infn.it/datacloud-templates/snj-base-jlabc-gpu:CLOUD-2252
+FROM harbor.cloud.infn.it/datacloud-templates/snj-base-jlabc-gpu:1.2.0
 
 # Disable diff checkpoit
 RUN jupyter labextension disable nbdime-jupyterlab

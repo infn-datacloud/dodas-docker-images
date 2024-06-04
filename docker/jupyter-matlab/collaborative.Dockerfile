@@ -27,10 +27,10 @@ ARG SHOULD_USE_LICENSE_SERVER=${LICENSE_SERVER:+"_with_lm"}
 ARG MW_CONTEXT_TAGS=MATLAB_PROXY:JUPYTER:MPM:V1
 
 # Base Jupyter image without LICENSE_SERVER
-FROM harbor.cloud.infn.it/datacloud-templates/snj-base-labc:CLOUD-2252 AS base_jupyter_image
+FROM harbor.cloud.infn.it/datacloud-templates/snj-base-labc:1.2.0 AS base_jupyter_image
 
 # Base Jupyter image with LICENSE_SERVER
-FROM harbor.cloud.infn.it/datacloud-templates/snj-base-labc:CLOUD-2252 AS base_jupyter_image_with_lm
+FROM harbor.cloud.infn.it/datacloud-templates/snj-base-labc:1.2.0 AS base_jupyter_image_with_lm
 ARG LICENSE_SERVER
 # If license server information is available, then use it to set environment variable
 ENV MLM_LICENSE_FILE=${LICENSE_SERVER}

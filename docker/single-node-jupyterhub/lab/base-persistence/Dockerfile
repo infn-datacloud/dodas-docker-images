@@ -1,5 +1,5 @@
 # Image name: snj-base-lab-persistence
-ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:CLOUD-2252"
+ARG BASE_IMAGE="harbor.cloud.infn.it/datacloud-templates/snj-base-lab:1.2.0"
 
 FROM ${BASE_IMAGE}
 

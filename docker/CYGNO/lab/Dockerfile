@@ -1,5 +1,5 @@
 # Image name: cygno-lab -> based on snj-base-lab-cc7
-FROM harbor.cloud.infn.it/datacloud-templates/snj-base-lab-cc7:CLOUD-2252
+FROM harbor.cloud.infn.it/datacloud-templates/snj-base-lab-cc7:1.2.0
 
 ENV OIDC_AGENT=/usr/bin/oidc-agent
 
