@@ -50,7 +50,7 @@ pipeline {
     }
     
     stages {
-        // stage('Build and Push jHub Image') {
+        // stage('Build and Push JHUB Image') {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
@@ -297,18 +297,18 @@ pipeline {
         //     }
         // } 
 
-        stage('Build and Push Spark Image') {
-            // when { expression { return isTag() } }
-            environment {
-                IMAGE_NAME = "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/spark/Dockerfile docker/spark"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
+        // stage('Build and Push Spark Image') {
+        //     // when { expression { return isTag() } }
+        //     environment {
+        //         IMAGE_NAME = "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/spark/Dockerfile docker/spark"
+        //     }
+        //     steps {
+        //         script {
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+        //         }
+        //     }
+        // }
 
         // stage('Build and Push JHUB Spark Image') {
         //     when { expression { return isTag() } }
