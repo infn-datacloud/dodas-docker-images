@@ -3,8 +3,10 @@ def isTag() {
 }
  
 def buildAndPushImage(String imageName, String dockerBuildOptions) {
+    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
     def dockerImage = docker.build(imageName, dockerBuildOptions)
-    docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) { dockerImage.push() }
+    dockerImage.push()
+    }
 }
  
 def getReleaseVersion(String tagName) {
@@ -50,34 +52,34 @@ pipeline {
     }
     
     stages {
-        stage('Build and Push JHUB Image') {
-            // when { expression { return isTag() } }
-            environment {
-                IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
+        // stage('Build and Push JHUB Image') {
+        //     when { expression { return isTag() } }
+        //     environment {
+        //         IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
+        //     }
+        //     steps {
+        //         script {
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+        //         }
+        //     }
+        // }
         
-        stage('Build and Push Base Lab Image') {
-            // when { expression { return isTag() } }
-            environment {
-                IMAGE_NAME = "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
+        // stage('Build and Push Base Lab Image') {
+        //     when { expression { return isTag() } }
+        //     environment {
+        //         IMAGE_NAME = "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
+        //     }
+        //     steps {
+        //         script {
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+        //         }
+        //     }
+        // }
  
         // stage('Build and Push Persistence Image') {
-        //     // when { expression { return isTag() } }
+        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
@@ -90,7 +92,7 @@ pipeline {
         // }
 
         // stage('Build and Push Collaborative Image') {
-        //     // when { expression { return isTag() } }
+        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
@@ -102,18 +104,18 @@ pipeline {
         //     }
         // }
 
-        // stage('Build and Push Collaborative Proxy Image') {
-        //     when { expression { return isTag() } }
-        //     environment {
-        //         IMAGE_NAME = "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
-        //     }
-        //     steps {
-        //         script {
-        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-        //         }
-        //     }
-        // }
+        stage('Build and Push Collaborative Proxy Image') {
+            // when { expression { return isTag() } }
+            environment {
+                IMAGE_NAME = "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
 
         // stage('Build and Push Notebook Image') {
         //     when { expression { return isTag() } }
