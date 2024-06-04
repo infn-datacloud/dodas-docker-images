@@ -134,7 +134,7 @@ pipeline {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${BASE_LAB_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.gpu docker/single-node-jupyterhub/lab"
         //     }
         //     steps {
         //         script {
@@ -147,7 +147,7 @@ pipeline {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile.gpu docker/single-node-jupyterhub/jupyterlab-collaborative"
         //     }
         //     steps {
         //         script {
@@ -169,7 +169,7 @@ pipeline {
         //     }
         // }
 
-        // stage('Build and Push Collaborative Image') {
+        // stage('Build and Push ML INFN Collaborative Image') {
         //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}"
