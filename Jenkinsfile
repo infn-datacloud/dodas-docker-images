@@ -104,24 +104,11 @@ pipeline {
         //     }
         // }
 
-        stage('Build and Push Collaborative Proxy Image') {
+        // stage('Build and Push Collaborative Proxy Image') {
             // when { expression { return isTag() } }
-            environment {
-                IMAGE_NAME = "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
-
-        // stage('Build and Push Notebook Image') {
-        //     when { expression { return isTag() } }
         //     environment {
-        //         IMAGE_NAME = "${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
+        //         IMAGE_NAME = "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
         //     }
         //     steps {
         //         script {
@@ -129,6 +116,19 @@ pipeline {
         //         }
         //     }
         // }
+
+        stage('Build and Push Notebook Image') {
+            // when { expression { return isTag() } }
+            environment {
+                IMAGE_NAME = "${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
 
         // stage('Build and Push Lab GPU Image') {
         //     when { expression { return isTag() } }
