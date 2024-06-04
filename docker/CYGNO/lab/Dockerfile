@@ -78,7 +78,7 @@ RUN ./install_CYGNO-MC.sh
 WORKDIR /
 
 # Install boto
-RUN pip3 install --no-cache-dir -U git+https://github.com/DODAS-TS/boto3sts@dev-rgw
+RUN pip3 install --no-cache-dir -U git+https://github.com/infn-datacloud/boto3sts
 
 # Install 
 RUN pip3 install --no-cache-dir -U \

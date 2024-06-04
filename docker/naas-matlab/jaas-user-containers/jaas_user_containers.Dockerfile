@@ -41,7 +41,7 @@ RUN pip install --no-cache-dir jupyter_client==8.2.0 \
     nbformat==5.9.0 \
     notebook_shim==0.2.3 \
     notebook==6.5.4 \
-    && pip3 install -U git+https://github.com/DODAS-TS/boto3sts@dev-rgw
+    && pip3 install -U git+https://github.com/infn-datacloud/boto3sts
 
 ARG JUPYTER_ROOT=/workarea
 
