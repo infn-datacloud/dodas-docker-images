@@ -117,18 +117,18 @@ pipeline {
         //     }
         // }
 
-        stage('Build and Push Notebook Image') {
-            // when { expression { return isTag() } }
-            environment {
-                IMAGE_NAME = "${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
+        // stage('Build and Push Notebook Image') {
+        //     when { expression { return isTag() } }
+        //     environment {
+        //         IMAGE_NAME = "${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
+        //     }
+        //     steps {
+        //         script {
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+        //         }
+        //     }
+        // }
 
         // stage('Build and Push Lab GPU Image') {
         //     when { expression { return isTag() } }
@@ -143,18 +143,18 @@ pipeline {
         //     }
         // }
 
-        // stage('Build and Push GPU Image') {
-        //     when { expression { return isTag() } }
-        //     environment {
-        //         IMAGE_NAME = "${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile.gpu docker/single-node-jupyterhub/jupyterlab-collaborative"
-        //     }
-        //     steps {
-        //         script {
-        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-        //         }
-        //     }
-        // }
+        stage('Build and Push Collaborative GPU Image') {
+            // when { expression { return isTag() } }
+            environment {
+                IMAGE_NAME = "${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile.gpu docker/single-node-jupyterhub/jupyterlab-collaborative"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
 
         // stage('Build and Push ML_INFN Image') {
         //     when { expression { return isTag() } }
