@@ -52,18 +52,18 @@ pipeline {
     }
     
     stages {
-        // stage('Build and Push JHUB Image') {
-        //     when { expression { return isTag() } }
-        //     environment {
-        //         IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
-        //     }
-        //     steps {
-        //         script {
-        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-        //         }
-        //     }
-        // }
+        stage('Build and Push JHUB Image') {
+            when { expression { return isTag() } }
+            environment {
+                IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
         
         // stage('Build and Push Base Lab Image') {
         //     when { expression { return isTag() } }
@@ -300,7 +300,7 @@ pipeline {
         // } 
 
         // stage('Build and Push Spark Image') {
-        //     // when { expression { return isTag() } }
+        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/spark/Dockerfile docker/spark"
