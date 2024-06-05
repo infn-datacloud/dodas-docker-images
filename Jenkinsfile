@@ -1,6 +1,6 @@
-def isTag() {
-    return env.GIT_TAG!=null && env.GIT_TAG != ''
-}
+// def isTag() {
+//     return env.GIT_TAG!=null && env.GIT_TAG != ''
+// }
  
 def buildAndPushImage(String imageName, String dockerBuildOptions) {
     docker.withRegistry('https://harbor.cloud.infn.it', HARBOR_CREDENTIALS) {
@@ -52,21 +52,19 @@ pipeline {
     }
     
     stages {
-        stage('Build and Push JHUB Image') {
-            when { expression { return isTag() } }
-            environment {
-                IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
-            }
-            steps {
-                script {
-                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-                }
-            }
-        }
+        // stage('Build and Push JHUB Image') {
+        //     environment {
+        //         IMAGE_NAME = "${JHUB_IMAGE_NAME}:${env.RELEASE_VERSION}"
+        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterhub/Dockerfile docker/single-node-jupyterhub/jupyterhub"
+        //     }
+        //     steps {
+        //         script {
+        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+        //         }
+        //     }
+        // }
         
         // stage('Build and Push Base Lab Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile docker/single-node-jupyterhub/lab"
@@ -79,7 +77,6 @@ pipeline {
         // }
  
         // stage('Build and Push Persistence Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/lab/base-persistence/Dockerfile docker/single-node-jupyterhub/lab/base-persistence"
@@ -92,7 +89,6 @@ pipeline {
         // }
 
         // stage('Build and Push Collaborative Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative"
@@ -105,7 +101,6 @@ pipeline {
         // }
 
         // stage('Build and Push Collaborative Proxy Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${COLLABORATIVE_PROXY_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative-proxy/Dockerfile docker/single-node-jupyterhub/jupyterlab-collaborative-proxy"
@@ -118,7 +113,6 @@ pipeline {
         // }
 
         // stage('Build and Push Notebook Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${NOTEBOOK_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/notebook/Dockerfile docker/single-node-jupyterhub/notebook"
@@ -131,7 +125,6 @@ pipeline {
         // }
 
         // stage('Build and Push Lab GPU Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${BASE_LAB_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.gpu docker/single-node-jupyterhub/lab"
@@ -144,7 +137,6 @@ pipeline {
         // }
 
         // stage('Build and Push Collaborative GPU Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/jupyterlab-collaborative/Dockerfile.gpu docker/single-node-jupyterhub/jupyterlab-collaborative"
@@ -157,7 +149,6 @@ pipeline {
         // }
 
         // stage('Build and Push ML_INFN Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${ML_INFN_BASE_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_GPU_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/ML-INFN/lab/Dockerfile docker/ML-INFN/lab"
@@ -170,7 +161,6 @@ pipeline {
         // }
 
         // stage('Build and Push ML INFN Collaborative Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${ML_INFN_LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_GPU_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/ML-INFN/jupyterlab-collaborative/Dockerfile docker/ML-INFN/jupyterlab-collaborative"
@@ -183,7 +173,6 @@ pipeline {
         // }
 
         // stage('Build and Push Base Lab CC7 Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
@@ -196,7 +185,6 @@ pipeline {
         // }
 
         // stage('Build and Push Cygno Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${CYGNO_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION} --no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
@@ -209,7 +197,6 @@ pipeline {
         // }
         
         // stage('Build and Push Cygno WN Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${CYGNO_LAB_WN_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/CYGNO/wn/Dockerfile docker/CYGNO"
@@ -222,7 +209,6 @@ pipeline {
         // }
  
         // stage('Build and Push Jupyter Matlab Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${JUP_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/persistence.Dockerfile docker/jupyter-matlab"
@@ -235,7 +221,6 @@ pipeline {
         // }
 
         // stage('Build and Push Collaboration Matlab Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${COLL_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${LAB_COLLABORATIVE_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab/collaborative.Dockerfile docker/jupyter-matlab"
@@ -248,7 +233,6 @@ pipeline {
         // }
 
         // stage('Build and Push Parallel Matlab Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${PARAL_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${LAB_PERSISTENCE_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/jupyter-matlab-parallel/persistence-parallel.Dockerfile docker/jupyter-matlab-parallel"
@@ -261,7 +245,6 @@ pipeline {
         // }
 
         // stage('Build and Push JaaS User Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/naas-matlab/jaas-user-containers/jaas_user_containers.Dockerfile docker/naas-matlab/jaas-user-containers"
@@ -274,7 +257,6 @@ pipeline {
         // }
 
         // stage('Build and Push NaaS Matlab Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${NAAS_MATLAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab/naas.Dockerfile docker/naas-matlab"
@@ -287,7 +269,6 @@ pipeline {
         // }
 
         // stage('Build and Push NaaS Parallel Matlab Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${NAAS_PARALLEL_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--build-arg BASE_IMAGE=${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION} --build-arg MATLAB_RELEASE=r2023b --build-arg MATLAB_PRODUCT_LIST='MATLAB MATLAB_Parallel_Server Parallel_Computing_Toolbox' --build-arg LICENSE_SERVER='' --no-cache -f docker/naas-matlab-parallel/naas-parallel.Dockerfile docker/naas-matlab-parallel"
@@ -300,7 +281,6 @@ pipeline {
         // } 
 
         // stage('Build and Push Spark Image') {
-        //     when { expression { return isTag() } }
         //     environment {
         //         IMAGE_NAME = "${SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}"
         //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/spark/Dockerfile docker/spark"
@@ -312,18 +292,17 @@ pipeline {
         //     }
         // }
 
-        // stage('Build and Push JHUB Spark Image') {
-        //     when { expression { return isTag() } }
-        //     environment {
-        //         IMAGE_NAME = "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
-        //     }
-        //     steps {
-        //         script {
-        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-        //         }
-        //     }
-        // }
+        stage('Build and Push JHUB Spark Image') {
+            environment {
+                IMAGE_NAME = "${JHUB_SPARK_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/jupyter-hub/Dockerfile docker/jupyter-hub"
+            }
+            steps {
+                script {
+                    buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
+                }
+            }
+        }
     }
     
     post {
