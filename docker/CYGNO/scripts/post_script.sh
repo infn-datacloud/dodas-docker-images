@@ -25,19 +25,19 @@ sleep 2s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     --localCacheDir "${BASE_CACHE_DIR}/scratch" \
     &>/var/log/sts-wire/mount_log_scratch.txt &
 sleep 3s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
-    cygno_analysis https://rgw.cloud.infn.it/ IAMaccess object/ \
+    cygno_analysis https://minio.cloud.infn.it/ IAMaccess object/ \
     /cygno-analysis /s3/cygno-analysis \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/cygno_analysis" \
     &>/var/log/sts-wire/mount_log_cygnoalanysis.txt &
 sleep 4s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
-    cygno_sim https://rgw.cloud.infn.it/ IAMaccess object \
+    cygno_sim https://minio.cloud.infn.it/ IAMaccess object \
     /cygno-sim /s3/cygno-sim \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/cygno_sim" \
     &>/var/log/sts-wire/mount_log_cygnosim.txt &
 sleep 5s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
-    cygno_data https://rgw.cloud.infn.it/ IAMaccess object \
+    cygno_data https://minio.cloud.infn.it/ IAMaccess object \
     /cygno-data /s3/cygno-data \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/cygno_data" \
