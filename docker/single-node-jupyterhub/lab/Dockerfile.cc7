@@ -30,8 +30,7 @@ RUN curl -L https://repo.cloud.cnaf.infn.it/repository/sts-wire/sts-wire-linux/2
     ln -s /usr/local/share/dodasts/bin/sts-wire /usr/local/bin/sts-wire
 
 # Install oidc-agent
-RUN curl -L https://repo.data.kit.edu/data-kit-edu-centos7.repo -o /etc/yum.repos.d/data-kit-edu-centos7.repo && \
-    yum install -y oidc-agent liboidc-agent4=4.5.1-1 oidc-agent-cli=4.5.1-1 oidc-agent-desktop=4.5.1-1 oidc-agent=4.5.1-1 && yum clean all
+RUN curl -L https://repo.data.kit.edu/data-kit-edu-centos7.repo -o /etc/yum.repos.d/data-kit-edu-centos7.repo && yum install -y oidc-agent-cli-4.5.1-1.el7.x86_64 && yum clean all
 
 # Install jupyterlab
 RUN python3 -m pip install --no-cache-dir \
