@@ -37,6 +37,7 @@ RUN yum -y clean metadata \
     condor-procd \
     python2-condor \
     python3-condor \
+    jq \
     && yum -y clean all \
     && rm -f /tmp/packages 
 
