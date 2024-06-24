@@ -39,7 +39,7 @@ RUN yum -y clean metadata \
     python3-condor \
     jq \
     && yum -y clean all \
-    && rm -f /tmp/packages 
+    && rm -f /tmp/packages
 
 RUN jupyter labextension uninstall @jlab_collaborative_ext/context-menu
 
