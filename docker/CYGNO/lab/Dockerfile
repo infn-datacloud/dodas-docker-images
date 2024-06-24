@@ -37,7 +37,6 @@ RUN yum -y clean metadata \
     condor-procd \
     python2-condor \
     python3-condor \
-    jq \
     && yum -y clean all \
     && rm -f /tmp/packages
 
@@ -114,8 +113,7 @@ COPY lab/kernel.json /usr/local/share/jupyter/kernels/python3/
 RUN ln -s /usr/bin/cmake3 /usr/bin/cmake
 
 # last requirments....
-RUN yum install emacs -y 
-RUN yum install vim -y
+RUN yum -y install emacs vim jq
 #RUN yum install screen -y
 #RUN wget https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz; \
 #    tar xvf Python-3.9.10.tgz; \
