@@ -88,7 +88,7 @@ RUN pip3 install --no-cache-dir -U \
     jedi-language-server==0.21.0 \
     metakernel==0.28.2 \
     tensorflow==2.6.2 \
-    opencv-python==4.6.0.66 \
+    opencv-python==4.7.0.72 \
     root_numpy==4.8.0 \
     pydot==1.4.2\
     graphviz==0.19.1 \
