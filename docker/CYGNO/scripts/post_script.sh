@@ -25,7 +25,7 @@ sleep 2s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
     --localCacheDir "${BASE_CACHE_DIR}/scratch" \
     &>/var/log/sts-wire/mount_log_scratch.txt &
 sleep 3s && nice -n 19 sts-wire https://iam.cloud.infn.it/ \
-    cygno_analysis https://minio.cloud.infn.it/ IAMaccess object/ \
+    cygno_analysis https://minio.cloud.infn.it/ IAMaccess object \
     /cygno-analysis /s3/cygno-analysis \
     --localCache full --tryRemount --noDummyFileCheck \
     --localCacheDir "${BASE_CACHE_DIR}/cygno_analysis" \
