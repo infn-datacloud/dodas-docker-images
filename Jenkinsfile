@@ -48,22 +48,10 @@ pipeline {
     }
     
     stages {
-        // stage('Build and Push Base Lab CC7 Image') {
-        //     environment {
-        //         IMAGE_NAME = "${BASE_LAB_CC7_IMAGE_NAME}:${env.RELEASE_VERSION}"
-        //         DOCKER_BUILD_OPTIONS = "--no-cache -f docker/single-node-jupyterhub/lab/Dockerfile.cc7 docker/single-node-jupyterhub/lab"
-        //     }
-        //     steps {
-        //         script {
-        //             buildAndPushImage(IMAGE_NAME, DOCKER_BUILD_OPTIONS)
-        //         }
-        //     }
-        // }
-
-        stage('Build and Push Cygno Image') {
+        stage('Build and Push JaaS User Image') {
             environment {
-                IMAGE_NAME = "${CYGNO_LAB_IMAGE_NAME}:${env.RELEASE_VERSION}"
-                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/CYGNO/lab/Dockerfile docker/CYGNO"
+                IMAGE_NAME = "${JAAS_USER_IMAGE_NAME}:${env.RELEASE_VERSION}"
+                DOCKER_BUILD_OPTIONS = "--no-cache -f docker/naas-matlab/jaas-user-containers/jaas_user_containers.Dockerfile docker/naas-matlab/jaas-user-containers"
             }
             steps {
                 script {
