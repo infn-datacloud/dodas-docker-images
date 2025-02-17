@@ -28,7 +28,7 @@ pipeline {
         BASE_JLAB_IMAGE_NAME =      'snj-base-lab'
         AIINFN_JLAB_IMAGE_NAME =    'jlab-ai-infn'
         STANDALONE_JLAB_IMAGE_NAME ='jlab-standalone'
-        TAG_NAME =                  '1.3.0-2'
+        TAG_NAME =                  '1.3.0-1'
         AI_INFN_TAG_NAME =          'v1.2'
         
         RELEASE_VERSION = getReleaseVersion(TAG_NAME)
