@@ -1,7 +1,7 @@
 # FROM jupyterhub/k8s-hub:4.0.0
 # FROM jupyterhub/k8s-hub:0.11.1 
 # FROM quay.io/jupyterhub/k8s-hub:3.2.1
-FROM quay.io/jupyterhub/k8s-hub:4.1.0
+FROM quay.io/jupyterhub/k8s-hub:4.1.0 
 
 USER root
 
