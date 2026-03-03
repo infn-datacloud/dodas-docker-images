@@ -179,7 +179,8 @@ if 'JUPYTERHUB_CRYPT_KEY' not in os.environ:
     )
     c.CryptKeeper.keys = [ os.urandom(32) ]
 
-cvmfs_snapshotter = os.environ["CVMFS_SNAPSHOTTER"]
+# Returns "false" if CVMFS_SNAPSHOTTER is not set
+cvmfs_snapshotter = os.environ.get("CVMFS_SNAPSHOTTER", "false")
 spawned_image = os.environ["SPAWNED_IMAGE"]
 c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
 if cvmfs_snapshotter == 'true':
