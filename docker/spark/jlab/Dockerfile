@@ -10,7 +10,8 @@ ARG SPARK_BASE=/usr/local
 ARG SPARK_HOME=/usr/local/spark
 ARG PYTHONVER=python3.11
 
-RUN apt-get -qq update && apt-get -qq -y install vim sudo git curl openjdk-11-jdk groovy && echo "jovyan ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+RUN apt-get -qq update && apt-get -qq upgrade -y
+RUN apt-get -qq -y install vim sudo git curl openjdk-11-jdk groovy && echo "jovyan ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     rm /bin/sh && ln -s /bin/bash /bin/sh && curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash && apt-get -qq install -y nodejs && \
     rm -rf /var/lib/apt/lists/* 
 
