@@ -181,7 +181,8 @@ if 'JUPYTERHUB_CRYPT_KEY' not in os.environ:
 
 # Returns "false" if CVMFS_SNAPSHOTTER is not set
 cvmfs_snapshotter = os.environ.get("CVMFS_SNAPSHOTTER", "false")
-spawned_image = os.environ["SPAWNED_IMAGE"]
+spawned_image = os.environ.get("SPAWNED_IMAGE", "harbor.cloud.infn.it/datacloud-templates/spark:1.2.1")
+
 c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
 if cvmfs_snapshotter == 'true':
     c.KubeSpawner.cmd = ['/usr/bin/unshare', '-cm', '--keep-caps', '/opt/conda/bin/jupyterhub-singleuser', '--allow-root']
