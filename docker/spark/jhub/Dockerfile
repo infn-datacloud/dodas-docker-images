@@ -14,6 +14,8 @@ LABEL Diego Ciangottini <diego.ciangottini@cern.ch> \
 
 USER root
 
+RUN apt-get -qq update && apt-get -qq upgrade -y
+
 # Install required apt packages for all the extensions and use bash instead of dash
 RUN echo "jovyan ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && rm /bin/sh && ln -s /bin/bash /bin/sh && \
     printf "[global] \
